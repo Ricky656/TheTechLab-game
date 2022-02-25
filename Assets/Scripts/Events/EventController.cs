@@ -57,7 +57,7 @@ public class EventController : MonoBehaviour
 
     public static void StopListening(EventType eventName, UnityAction listener)//Removes listener from an event, if it exists in dictionary
     {
-        if (controller == null) { Debug.Log("No event controller!"); return; }
+        if (controller == null) { Debug.Log($"<color=yellow>No event controller!</color>"); return; }
 
         UnityEvent currentEvent; 
         if(controller.events.TryGetValue(eventName, out currentEvent))

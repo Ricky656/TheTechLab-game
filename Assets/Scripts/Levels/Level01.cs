@@ -13,7 +13,7 @@ public class Level01 : Level
 
     public void StartLevel()
     {
-        StartCoroutine(UIController.CameraFade());
+        StartCoroutine(CameraController.CameraFade());
         StartCoroutine(OpeningSequence());
     }
 
@@ -21,25 +21,31 @@ public class Level01 : Level
     {
         yield return new WaitForSeconds(3);
 
-        UIController.CameraMove(cameraLocations[0]);
+        CameraController.CameraMove(GetCameraFlag("start"));
 
         DialogueController.StartConversation(introDialogue);
-        onDialogueLineEnd = new UnityAction(FadeIn);
+        onDialogueLineEnd = new UnityAction(DialogueReactions);
         EventController.StartListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
         dialogueWaitCounter = 0;
     }
 
-    private void FadeIn()
+    private void DialogueReactions()
     {
         dialogueWaitCounter++;
         switch (dialogueWaitCounter)
         {
             case 2://Doesn't execute until two dialogue lines have finished/
-                StartCoroutine(UIController.CameraFade(false));
-                EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+                StartCoroutine(CameraController.CameraFade(false));
                 break;
-            case 3:
+            case 4:
+                CameraController.CameraMove(GetCameraFlag("01"), true);
+                break;
+            case 8:
+                CameraController.CameraMove(GetCameraFlag("02"), true);
+                break;
+            case 9:
                 EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);//Unlock player control
+                EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
                 break;
         }
     }
