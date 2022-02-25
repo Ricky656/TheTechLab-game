@@ -17,7 +17,9 @@ public class EventController : MonoBehaviour
         DialogueEnd,
         CameraFadeComplete,
         PlayerLocked,
-        PlayerUnlocked
+        PlayerUnlocked,
+        QuestCompleted
+
     }
 
     public static EventController instance

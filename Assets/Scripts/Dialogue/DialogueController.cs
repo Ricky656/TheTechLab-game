@@ -99,9 +99,20 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator TypeLine()//Displays current dialogue line using a typing effect, speed is set and can be customized per line in dialogueline objects
     {
+        bool usingMarkup = false;
         foreach(char letter in currentConversation.dialogueLines[currentLineIndex].text.ToCharArray())
         {
             textBox.text += letter;
+            //These checks allow for markup to be used in strings displayed, skipping the wait time so that E.G.'<color=yellow>' isn't written out 1 characters at a time like the rest of the text
+            if (letter == '<' || usingMarkup)
+            {
+                usingMarkup = true;
+                if(letter == '>')
+                {
+                    usingMarkup = false;
+                }
+                continue;
+            }
             float waitTime = currentConversation.dialogueLines[currentLineIndex].textSpeed;
             float timeModifier;
             if(charSpeedDictionary.TryGetValue(letter, out timeModifier))//Typing speed is modified if current char has an entry in the dictionary, creating pauses for '.'s for example
@@ -139,7 +150,7 @@ public class DialogueController : MonoBehaviour
 
     private bool CheckInput()
     {
-        if (Input.GetKeyDown("space"))//TODO: Enable mouse click/Enter key as well 
+        if (Input.GetButtonDown("DialogueNext"))
         {
             return true;
         }

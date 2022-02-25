@@ -17,6 +17,7 @@ public class PlayerController : Character
     private float moveDirection;
     private bool jump;
     private bool onGround;
+    private List<Item> inventory; 
 
     private UnityAction onPlayerLock;
     private UnityAction onPlayerUnlock;
@@ -25,6 +26,7 @@ public class PlayerController : Character
     {
         rigid = gameObject.GetComponent<Rigidbody2D>();
         controlLocked = true;
+        inventory = new List<Item>();
 
         onPlayerLock = new UnityAction(LockControls);
         onPlayerUnlock = new UnityAction(UnlockControls);
@@ -87,5 +89,33 @@ public class PlayerController : Character
     private void UnlockControls()
     {
         controlLocked = false;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        GameObject obj = collision.gameObject;
+        switch (obj.tag)
+        {
+            case "Pickup":
+                inventory.Add(obj.GetComponent<Item>()); //Add pickup to inventory, disable object and send event saying quest has been completed. (All pickups are 'quest objectives')
+                obj.SetActive(false);
+                EventController.TriggerEvent(EventController.EventType.QuestCompleted);
+                SendPickupMessage(obj.GetComponent<Item>());
+                break;
+            case "Water":
+
+                break;
+        }
+    }
+
+    private void SendPickupMessage(Item obj)//Build a new dialogue conversation object and send it to the respective controller 
+    {
+        DialogueConversation convo = ScriptableObject.CreateInstance("DialogueConversation") as DialogueConversation;
+        DialogueLine message = new DialogueLine();
+        message.text = obj.pickupMessage + obj.itemName;    
+        convo.gameHalt = false;
+        convo.dialogueLines = new DialogueLine[] { message };
+
+        DialogueController.StartConversation(convo);
     }
 }

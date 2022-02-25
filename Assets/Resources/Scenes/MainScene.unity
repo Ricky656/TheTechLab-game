@@ -919,30 +919,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &795892506 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5548319643907186129, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
-  m_PrefabInstance: {fileID: 5548319643516045003}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &795892507
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 795892506}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: f591b4c54cb67e54ba314b7b9d068b5b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &799354594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1919,7 +1895,7 @@ GameObject:
   - component: {fileID: 2111372647}
   m_Layer: 5
   m_Name: UICanvas
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2033,6 +2009,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a47619f42dfd51408c686a04f9c3614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2962062307061157712
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2292070109852163697, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: itemName
+      value: <color=yellow>PROFESSOR WHORLSWORTH'S QUANTUM ENTANGLER</color>(tm)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292070109852163697, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: identifier
+      value: gun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292070109852163697, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: description
+      value: 'One of the professor''s more esoteric creations, this gun can entangle
+        two objects by hitting them with... something? '
+      objectReference: {fileID: 0}
+    - target: {fileID: 2292070109852163697, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: pickupMessage
+      value: 'You discovered '
+      objectReference: {fileID: 0}
+    - target: {fileID: 4781056830316891704, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_Name
+      value: pickupItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 23.526852
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.459761
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5817119335275442056, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6278359879895816200, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c289e6b9aaf621e438e67e502154cee9, type: 3}
 --- !u!1001 &5127360811240874154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2105,18 +2159,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 715691778337456626, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
-      propertyPath: animator
-      value: 
-      objectReference: {fileID: 795892507}
-    - target: {fileID: 715691778337456626, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
-      propertyPath: colCheckRadius
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 715691778337456626, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
-      propertyPath: walkableObjects.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 5548319643907186129, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
       propertyPath: m_Name
       value: character_Player
@@ -2124,10 +2166,6 @@ PrefabInstance:
     - target: {fileID: 5548319643907186133, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
       propertyPath: m_RootOrder
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 5548319643907186133, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5548319643907186133, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
       propertyPath: m_LocalPosition.x

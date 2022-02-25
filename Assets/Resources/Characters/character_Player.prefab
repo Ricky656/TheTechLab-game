@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 5548319643907186135}
   - component: {fileID: 5548319643907186128}
   - component: {fileID: 715691778337456626}
+  - component: {fileID: 795892507}
   m_Layer: 0
   m_Name: character_Player
   m_TagString: Untagged
@@ -175,6 +176,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aea059da439be4c439d3074313d86ff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupMessage: 'You discovered '
   moveSpeed: 6
   jumpStrength: 350
   feetLocation: {fileID: 1576343727}
+  colCheckRadius: 0.2
+  walkableObjects:
+    serializedVersion: 2
+    m_Bits: 64
+  animator: {fileID: 795892507}
+--- !u!95 &795892507
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548319643907186129}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f591b4c54cb67e54ba314b7b9d068b5b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
