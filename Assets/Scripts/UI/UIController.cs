@@ -6,9 +6,10 @@ using UnityEngine.Events;
 
 public class UIController : MonoBehaviour
 {
-
+    public CameraController mainCamera; 
     public GameObject fadeBox; //Used to fade camera to/from black
     public const float defaultFadeSpeed = 1f;
+    public const float defaultPanSpeed = 0.5f; 
 
     private static UIController controller;
 
@@ -20,52 +21,8 @@ public class UIController : MonoBehaviour
         }
     }
 
-    //public DialogueConversation testConversation;
-
-
-    //private UnityAction onDialogueEnd; 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-   /* public void StartGame()
-    {
-        GameObject.Find("StartMenu").gameObject.SetActive(false);
-        Debug.Log("Starting game");
-
-        StartCoroutine(CameraFade());
-        StartCoroutine(openingSequence());
-        
-        
-    }*/
-
-    /*private void startEventTest()
-    {
-        EventController.StopListening(EventController.EventType.DialogueEnd, onDialogueEnd);
-        StartCoroutine(CameraFade(false));
-    }
-
-    private IEnumerator openingSequence()
-    {
-        yield return new WaitForSeconds(3);
-        DialogueController.StartConversation(testConversation);
-
-        onDialogueEnd = new UnityAction(startEventTest);
-        EventController.StartListening(EventController.EventType.DialogueEnd, onDialogueEnd);
-    }*/
-
-
     public static IEnumerator CameraFade(bool FadeOut = true, float speed = defaultFadeSpeed)//Fade camera to/from black, lower speed = faster fade
     {
-        Debug.Log("fading");
         GameObject box = controller.fadeBox;
         box.SetActive(true);
         Color fadeColor = box.GetComponent<Image>().color;
@@ -91,6 +48,19 @@ public class UIController : MonoBehaviour
                 yield return null;
             }
             box.SetActive(false);
+        }
+    }
+
+    public static void CameraMove(GameObject cameraFlag, bool pan = false, float panSpeed = defaultPanSpeed)
+    {
+        Vector2 location = new Vector2(cameraFlag.transform.position.x, cameraFlag.transform.position.y);
+        if (!pan)
+        {
+            controller.mainCamera.SetPosition(location);
+        }
+        else
+        {
+            controller.mainCamera.PanCamera(location, defaultPanSpeed);
         }
     }
 }

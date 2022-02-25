@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Level01 : MonoBehaviour
+public class Level01 : Level
 {
 
     public DialogueConversation introDialogue;
@@ -20,6 +20,9 @@ public class Level01 : MonoBehaviour
     private IEnumerator OpeningSequence()
     {
         yield return new WaitForSeconds(3);
+
+        UIController.CameraMove(cameraLocations[0]);
+
         DialogueController.StartConversation(introDialogue);
         onDialogueLineEnd = new UnityAction(FadeIn);
         EventController.StartListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
@@ -29,10 +32,15 @@ public class Level01 : MonoBehaviour
     private void FadeIn()
     {
         dialogueWaitCounter++;
-        if (dialogueWaitCounter == 2)
+        switch (dialogueWaitCounter)
         {
-            StartCoroutine(UIController.CameraFade(false));
-            EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+            case 2://Doesn't execute until two dialogue lines have finished/
+                StartCoroutine(UIController.CameraFade(false));
+                EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+                break;
+            case 3:
+                EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);//Unlock player control
+                break;
         }
     }
 }

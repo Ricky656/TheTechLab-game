@@ -16,14 +16,20 @@ public class EventController : MonoBehaviour
         DialogueLineFinish,
         DialogueEnd,
         CameraFadeComplete,
+        PlayerLocked,
+        PlayerUnlocked
     }
 
-    public void Awake()
+    public static EventController instance
     {
-        if (controller == null)
+        get
         {
-            controller = this;
-            Initialize();
+            if (!controller)
+            {
+                controller = FindObjectOfType(typeof(EventController)) as EventController;
+                controller.Initialize();
+            }
+            return controller;
         }
     }
 
@@ -34,13 +40,13 @@ public class EventController : MonoBehaviour
 
     public static void StartListening(EventType eventName, UnityAction listener)//Adds listener to an event
     {
-        if (controller == null) { Debug.Log("No event controller!"); return; }
+        //if (controller == null) { Debug.Log("No event controller!"); return; }
 
         UnityEvent currentEvent; 
-        if(!controller.events.TryGetValue(eventName, out currentEvent)) //Check if event already exists in dictionary
+        if(!instance.events.TryGetValue(eventName, out currentEvent)) //Check if event already exists in dictionary
         {
             currentEvent = new UnityEvent();
-            controller.events.Add(eventName, currentEvent);//TODO: refactor
+            instance.events.Add(eventName, currentEvent);//TODO: refactor
         }
         currentEvent.AddListener(listener);
 
@@ -62,7 +68,7 @@ public class EventController : MonoBehaviour
     {
         //Debug.Log($"Trying to trigger{ eventName } ");
         UnityEvent currentEvent;
-        if(controller.events.TryGetValue(eventName, out currentEvent))
+        if(instance.events.TryGetValue(eventName, out currentEvent))
         {
             Debug.Log($"Successfully triggered { eventName } ");
             currentEvent.Invoke();

@@ -76,7 +76,10 @@ public class DialogueController : MonoBehaviour
         controller.currentConversation = conversation;
         controller.textBox.text = "";
 
-        //TODO: Lock player if conversation.halt == true 
+        if (conversation.gameHalt)
+        {
+            EventController.TriggerEvent(EventController.EventType.PlayerLocked);
+        }
         controller.StartCoroutine(controller.TypeLine());
     }
 
@@ -85,6 +88,10 @@ public class DialogueController : MonoBehaviour
         if (controller == null) { Debug.Log("No dialogue controller!"); return; }
 
         EventController.TriggerEvent(EventController.EventType.DialogueEnd);
+        if (controller.currentConversation.gameHalt)
+        {
+            EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
+        }
         //TODO: animation for dialoguebox disappearing? 
         controller.busy = false;
         controller.gameObject.SetActive(false);
