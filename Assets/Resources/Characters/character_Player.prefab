@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 795892507}
   m_Layer: 0
   m_Name: character_Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -182,6 +182,7 @@ MonoBehaviour:
   feetLocation: {fileID: 1576343727}
   interactLocation: {fileID: 8202704479843074056}
   colCheckRadius: 0.2
+  interactCheckRadius: 0.5
   walkableObjects:
     serializedVersion: 2
     m_Bits: 64

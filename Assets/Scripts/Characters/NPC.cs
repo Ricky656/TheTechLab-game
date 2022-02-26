@@ -12,9 +12,11 @@ public class NPC : Character
     private List<DialogueConversation> doneConversations;  //Currently used 'done' messages
     private DialogueConversation currentConversation;
     private UnityAction onDialogueEnd;
+    private Rigidbody2D rigid;
 
     public void Awake()
     {
+        rigid = GetComponent<Rigidbody2D>();
         activeConversations = new List<DialogueConversation>();
         doneConversations = new List<DialogueConversation>();
         if (!interactableMarker && dialogues.Length>0) { Debug.Log($"<color=yellow>{gameObject.name} missing dialogueMarker!</color>"); }
@@ -111,5 +113,5 @@ public class NPC : Character
         Debug.Log($"<color=yellow>Cannot find dialogue of name {searchString}, please ensure all Dialogues are placed on the correct character with the name format of: '(LevelName)_(characterName)_(identifier)'</color>");
         return null;
     }
-
+    
 }

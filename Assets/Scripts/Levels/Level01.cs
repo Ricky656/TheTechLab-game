@@ -52,7 +52,7 @@ public class Level01 : Level
 
                 onItemPickup = new UnityAction(PickupGun);
                 EventController.StartListening(EventController.EventType.QuestCompleted, onItemPickup);
-
+                CameraController.SetCameraMode(CameraController.CameraMode.Normal);
                 professor.AddDoneConversation("done01", this.GetType().ToString());
                 break;
         }

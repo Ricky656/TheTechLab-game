@@ -7,11 +7,27 @@ public class CameraController : MonoBehaviour
 {
 
     public GameObject fadeBox; //Used to fade camera to/from black
+    public GameObject followedObject;
+    public Transform minPosition;
+    public Transform maxPosition;
+    public float moveDelay;
+    public float moveSmoothness;
+    //public float cameraHeight = 2; //How high is the camera raised above the object it's following
     
+
     private const float defaultFadeSpeed = 1f;
     private const float defaultPanSpeed = 0.005f;
     private const float snapDistance = 0.02f;//distance before camera will snap to target and stop panning
     private static CameraController controller;
+    private Vector2 velocity;
+    private CameraMode currentMode;
+
+    public enum CameraMode
+    {
+        Cinematic,
+        Normal,
+        Paused,
+    }
 
     public void Awake()
     {
@@ -19,6 +35,28 @@ public class CameraController : MonoBehaviour
         {
             controller = this; 
         }
+        currentMode = CameraMode.Cinematic;
+        if (moveSmoothness <= 0) { moveSmoothness = defaultPanSpeed; }
+    }
+
+    public void Update()
+    {
+        switch (currentMode)
+        {
+            case CameraMode.Normal:
+                FollowTarget();
+                break;
+        }
+    }
+
+    public static void SetCameraMode(CameraMode mode)
+    {
+        controller.currentMode = mode;
+    }
+
+    public static CameraMode GetCameraMode()
+    {
+        return controller.currentMode; 
     }
 
     public static void CameraMove(GameObject cameraFlag, bool pan = false, float panSpeed = defaultPanSpeed)
@@ -101,5 +139,17 @@ public class CameraController : MonoBehaviour
 
             yield return new WaitForSeconds(Time.deltaTime); //deltaTime is time between frames, ensuring consistant camera pan regardless of fps 
         }
+    }
+
+    private void FollowTarget()
+    {
+        Vector2 targetPosition = new Vector2(followedObject.transform.position.x, followedObject.transform.position.y);
+
+        float xTarget = Mathf.Clamp(targetPosition.x, minPosition.position.x, maxPosition.position.x);
+        float yTarget = Mathf.Clamp(targetPosition.y, minPosition.position.y, maxPosition.position.y);
+
+        float xPos = Mathf.SmoothDamp(transform.position.x, xTarget, ref velocity.x, moveSmoothness);
+        float yPos = Mathf.SmoothDamp(transform.position.y, yTarget, ref velocity.y, moveSmoothness);
+        transform.position = new Vector3(xPos,yPos,transform.position.z); 
     }
 }
