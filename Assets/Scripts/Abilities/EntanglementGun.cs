@@ -10,7 +10,9 @@ public class EntanglementGun : MonoBehaviour
     public float aimLength;
     public GameObject projectilePrefab;
     public float projectileSpeed;
+    public GameObject particleEffectPrefab;
 
+    private GameObject particleEffect;
     private Vector3 mousePosition;
     private bool controlLocked;
     private LineRenderer aimLine;
@@ -30,6 +32,10 @@ public class EntanglementGun : MonoBehaviour
         aimLine.endWidth = 0.05f;
         projectile = Instantiate(projectilePrefab).GetComponent<EntangleProjectile>();
         projectile.Initialize(this);
+        particleEffect = Instantiate(particleEffectPrefab);
+        particleEffect.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - (GetComponent<BoxCollider2D>().bounds.extents.y));
+        particleEffect.transform.parent = gameObject.transform;
+        particleEffect.SetActive(false);
         Disable();
     }
     void Start()
@@ -70,6 +76,7 @@ public class EntanglementGun : MonoBehaviour
                 Debug.Log($"{gameObject.ToString()} is now entangled with: {objects[1].ToString()}");
                 entangledObject = objects[1];
                 entangledObject.GetComponent<Entangleable>().Entangle(gameObject);
+                particleEffect.SetActive(true);
             }
         }
     }
@@ -78,6 +85,7 @@ public class EntanglementGun : MonoBehaviour
     {
         entangledObject.GetComponent<Entangleable>().Disentangle();
         entangledObject = null;
+        particleEffect.SetActive(false);
     }
     private void LaunchProjectile()
     {

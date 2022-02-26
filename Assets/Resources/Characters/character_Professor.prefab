@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 9123477326930425091}
   - component: {fileID: 6019362217089224711}
   - component: {fileID: 886637149321107857}
+  - component: {fileID: 1143497832}
   m_Layer: 6
   m_Name: character_Professor
   m_TagString: Untagged
@@ -150,6 +151,10 @@ MonoBehaviour:
   dialogues:
   - {fileID: 11400000, guid: d5c02654f3946d14fb9d2242d8efc80b, type: 2}
   - {fileID: 11400000, guid: 387194e70e5114b42a77e267237a5906, type: 2}
+  - {fileID: 11400000, guid: 0fd250df68e214d46b14eb0eabb6e4d4, type: 2}
+  - {fileID: 11400000, guid: e2636ac2c18e88f438a2eebdfbcfc19b, type: 2}
+  - {fileID: 11400000, guid: a9707825da1a93e4eb82d4f38b432ada, type: 2}
+  - {fileID: 11400000, guid: 5a21a0dcc709cc34f8fb0d4e0c326468, type: 2}
 --- !u!114 &886637149321107857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +167,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf9d20442f9d7464b8b9599207ac994c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1143497832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9123477326930425094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7621c3f325f41084e9b8009c95dfade4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  particleEffectPrefab: {fileID: 7293847937496672681, guid: 1ac180c26bba519419ec780ce839f1ee, type: 3}
 --- !u!1001 &8766609432161907751
 PrefabInstance:
   m_ObjectHideFlags: 0

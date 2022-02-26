@@ -87,6 +87,7 @@ public class PlayerController : Character
         }
     }
 
+
     private void Move()
     {
         rigid.velocity = new Vector2(moveDirection * moveSpeed, rigid.velocity.y);

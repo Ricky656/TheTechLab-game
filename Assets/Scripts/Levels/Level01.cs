@@ -56,6 +56,8 @@ public class Level01 : Level
                 EventController.StartListening(EventController.EventType.QuestCompleted, onItemPickup);
                 CameraController.SetCameraMode(CameraController.CameraMode.Normal);
                 professor.AddDoneConversation("done01", this.GetType().ToString());
+                professor.AddAttackedConversation("Attacked01", this.GetType().ToString());
+                professor.AddAttackedConversation("Attacked02", this.GetType().ToString());
                 break;
         }
     }
@@ -67,5 +69,18 @@ public class Level01 : Level
         player.GetComponent<EntanglementGun>().Enable();
         player.GetComponent<EntanglementGun>().LockControl(false);
         EventController.StopListening(EventController.EventType.QuestCompleted, onItemPickup);
+        EventController.StartListening(EventController.EventType.BulletHit, EntangleBox);
+    }
+
+    private void EntangleBox(object data)
+    {
+        GameObject[] objs = (GameObject[])data;
+        if(objs[1].name == "box")
+        {
+            professor.ClearActiveConversations();
+            professor.AddDoneConversation("done02", this.GetType().ToString());
+            professor.AddDoneConversation("done03", this.GetType().ToString());
+            EventController.StopListening(EventController.EventType.BulletHit, EntangleBox);
+        }
     }
 }
