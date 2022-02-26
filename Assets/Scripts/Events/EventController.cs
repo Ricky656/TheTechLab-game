@@ -9,17 +9,18 @@ public class EventController : MonoBehaviour
     this allows for much cleaner scripting of sequential events that wait for particular triggers such as the player completing a task in game */
 
     private Dictionary<EventType, UnityEvent> events; //stores the events triggered and listened for
+    private Dictionary<EventType, DataEvent> dataEvents; //stores events that also need to transmit data
     private static EventController controller;
 
     public enum EventType//Event types that can be triggered
     {
+        BulletHit,
+        CameraFadeComplete,
         DialogueLineFinish,
         DialogueEnd,
-        CameraFadeComplete,
         PlayerLocked,
         PlayerUnlocked,
         QuestCompleted
-
     }
 
     public static EventController instance
@@ -38,6 +39,7 @@ public class EventController : MonoBehaviour
     private void Initialize()
     {
         events = new Dictionary<EventType, UnityEvent>();
+        dataEvents = new Dictionary<EventType, DataEvent>();
     }
 
     public static void StartListening(EventType eventName, UnityAction listener)//Adds listener to an event
@@ -51,8 +53,6 @@ public class EventController : MonoBehaviour
             instance.events.Add(eventName, currentEvent);//TODO: refactor
         }
         currentEvent.AddListener(listener);
-
-        //Debug.Log($"Started Listening for { eventName } ");
     }
 
     public static void StopListening(EventType eventName, UnityAction listener)//Removes listener from an event, if it exists in dictionary
@@ -74,6 +74,41 @@ public class EventController : MonoBehaviour
         {
             Debug.Log($"Successfully triggered { eventName } ");
             currentEvent.Invoke();
+        }
+    }
+
+
+
+    //--------Alternate versions for events that transmit data-----------------
+    public static void StartListening(EventType eventName, UnityAction<object> listener)
+    {
+        DataEvent currentEvent;
+        if (!instance.dataEvents.TryGetValue(eventName, out currentEvent)) 
+        {
+            currentEvent = new DataEvent();
+            instance.dataEvents.Add(eventName, currentEvent);//TODO: refactor
+        }
+        currentEvent.AddListener(listener);
+    }
+
+    public static void StopListening(EventType eventName, UnityAction<object> listener)
+    {
+        if (controller == null) { Debug.Log($"<color=yellow>No event controller!</color>"); return; }
+
+        DataEvent currentEvent;
+        if (controller.dataEvents.TryGetValue(eventName, out currentEvent))
+        {
+            currentEvent.RemoveListener(listener);
+        }
+    }
+
+    public static void TriggerEvent(EventType eventName, object data)
+    {
+        DataEvent currentEvent;
+        if (instance.dataEvents.TryGetValue(eventName, out currentEvent))
+        {
+            Debug.Log($"Successfully triggered { eventName } ");
+            currentEvent.Invoke(data);
         }
     }
 }

@@ -9,10 +9,12 @@ public class EntangleProjectile : MonoBehaviour
     public ParticleSystem particleTrail;
 
     private const float lifeTime = 2f;
+    private EntanglementGun gun;
 
-    public void Initialize()
+    public void Initialize(EntanglementGun owner = null)
     {
         gameObject.SetActive(false);
+        gun = owner;
     }
 
     public void Fire(Vector2 startPos, Vector2 velocity)
@@ -34,6 +36,8 @@ public class EntangleProjectile : MonoBehaviour
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
+        GameObject[] entangledObjects = new GameObject[] {gun.gameObject, collision.collider.gameObject };
+        EventController.TriggerEvent(EventController.EventType.BulletHit, entangledObjects);
         Dissapate();
     }
 

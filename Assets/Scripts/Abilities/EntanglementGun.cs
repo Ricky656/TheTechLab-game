@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class EntanglementGun : MonoBehaviour
@@ -15,7 +16,9 @@ public class EntanglementGun : MonoBehaviour
     private LineRenderer aimLine;
     private bool fire;
     private EntangleProjectile projectile; //This gun will only be able to fire a single bullet at a time, so storing a single object is sufficient here. 
-    private Vector2 aimDirection; 
+    private Vector2 aimDirection;
+    private GameObject entangledObject;
+ 
     private void Awake()
     {
         aimLine = centrePoint.gameObject.AddComponent<LineRenderer>();
@@ -26,7 +29,7 @@ public class EntanglementGun : MonoBehaviour
         aimLine.startWidth = 0.05f;
         aimLine.endWidth = 0.05f;
         projectile = Instantiate(projectilePrefab).GetComponent<EntangleProjectile>();
-        projectile.Initialize();
+        projectile.Initialize(this);
         Disable();
     }
     void Start()
@@ -51,13 +54,31 @@ public class EntanglementGun : MonoBehaviour
             DrawAimLine();
             if (fire && !projectile.IsActive())
             {
-                Debug.Log("Gun firing");
                 LaunchProjectile();
             }
         }
         
     }
 
+    private void BulletHit(object data)//Data should be formatted as GameObject[]
+    {
+        GameObject[] objects = (GameObject[])data;
+        if(objects[0] == gameObject)
+        {
+            if (objects[1].gameObject.GetComponent<Entangleable>())
+            {
+                Debug.Log($"{gameObject.ToString()} is now entangled with: {objects[1].ToString()}");
+                entangledObject = objects[1];
+                entangledObject.GetComponent<Entangleable>().Entangle(gameObject);
+            }
+        }
+    }
+
+    private void Disentangle()
+    {
+        entangledObject.GetComponent<Entangleable>().Disentangle();
+        entangledObject = null;
+    }
     private void LaunchProjectile()
     {
         Vector2 startPos = (Vector2)centrePoint.transform.position + (aimDirection * aimLength);
@@ -72,6 +93,10 @@ public class EntanglementGun : MonoBehaviour
         {
             fire = true;
         }
+        if (Input.GetButtonDown("Disentangle"))
+        {
+            Disentangle();
+        }
     }
 
     private void DrawAimLine()
@@ -84,10 +109,12 @@ public class EntanglementGun : MonoBehaviour
     public void Enable()
     {
         this.enabled = true;
+        EventController.StartListening(EventController.EventType.BulletHit, BulletHit);
     }
 
     public void Disable()
     {
+        EventController.StopListening(EventController.EventType.BulletHit, BulletHit);
         this.enabled = false;
     }
 
