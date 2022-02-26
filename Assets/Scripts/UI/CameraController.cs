@@ -23,6 +23,7 @@ public class CameraController : MonoBehaviour
 
     public static void CameraMove(GameObject cameraFlag, bool pan = false, float panSpeed = defaultPanSpeed)
     {
+        controller.StopAllCoroutines();//If camera is already panning, we must stop that first
         if (cameraFlag == null) { Debug.Log($"<color=yellow>Cannot move camera: no camera flag!</color>"); return; }
 
         Vector3 location = new Vector3(cameraFlag.transform.position.x, cameraFlag.transform.position.y, controller.gameObject.transform.position.z);

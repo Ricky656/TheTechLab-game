@@ -66,6 +66,17 @@ public class DialogueController : MonoBehaviour
     public static void StartConversation(DialogueConversation conversation)
     {
         if (controller == null) { Debug.Log("No dialogue controller!"); return; }
+        if (IsBusy())
+        {
+            if (controller.currentConversation.gameHalt)//Don't allow conversations that halt the game to be interrupted by other messages
+            {
+                return;
+            }
+            else
+            {
+                controller.StopAllCoroutines();//Interrupt current conversation and then new one 
+            }
+        }
 
         controller.busy = true;
         controller.gameObject.SetActive(true);

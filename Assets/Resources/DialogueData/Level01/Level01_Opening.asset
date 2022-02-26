@@ -10,21 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
-  m_Name: Opening
+  m_Name: Level01_Opening
   m_EditorClassIdentifier: 
   gameHalt: 1
+  repeatable: 0
   dialogueLines:
   - character: {fileID: 0}
     textSpeed: 0.05
     text: Wow professor, you've really done it this time...
   - character: {fileID: 0}
-    textSpeed: 0.04
+    textSpeed: 0.06
     text: 'Hahah! I''m sure this is fine. '
   - character: {fileID: 0}
     textSpeed: 0.05
     text: Look at us! We've turned into... rectangles. What happened?
   - character: {fileID: 0}
-    textSpeed: 0.04
+    textSpeed: 0.06
     text: Success is what took place, my boy! We have entered the <i>Abstract World</i>.
       My machine works!
   - character: {fileID: 0}
@@ -32,17 +33,17 @@ MonoBehaviour:
     text: What about the lab? Why is it so massive now?
   - character: {fileID: 0}
     textSpeed: 0.04
-    text: Ohoo! This lab is a place of discovery and exploration. Why wouldn't it
+    text: Ohoo! The lab is a place of discovery and exploration. Why wouldn't it
       be so big in this realm!
   - character: {fileID: 0}
     textSpeed: 0.05
     text: So how do we get back to the real world?
   - character: {fileID: 0}
-    textSpeed: 0.04
+    textSpeed: 0.06
     text: Well you'll need to cut the power to the whole building to disable the
       machine. I've got a feeling you could use one of my <color=yellow>inventions</color>
       to help you get there.
   - character: {fileID: 0}
-    textSpeed: 0.04
-    text: It's up on that shelf behind me, now that we're so rectangular you can
-      jump on top of me to reach it. Oho, it's not all bad!
+    textSpeed: 0.06
+    text: It's up on that shelf behind me, now that we're rectangular you can jump
+      on top of me to reach it. Oho, it's not all bad!

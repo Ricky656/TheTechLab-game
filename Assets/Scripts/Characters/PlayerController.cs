@@ -8,7 +8,9 @@ public class PlayerController : Character
     public float moveSpeed;
     public float jumpStrength;
     public Transform feetLocation;
+    public Transform interactLocation;
     public float colCheckRadius;
+    public float interactCheckRadius;
     public LayerMask walkableObjects;
     public Animator animator;
 
@@ -17,7 +19,8 @@ public class PlayerController : Character
     private float moveDirection;
     private bool jump;
     private bool onGround;
-    private List<Item> inventory; 
+    private List<Item> inventory;
+    private bool facingRight;
 
     private UnityAction onPlayerLock;
     private UnityAction onPlayerUnlock;
@@ -27,12 +30,13 @@ public class PlayerController : Character
         rigid = gameObject.GetComponent<Rigidbody2D>();
         controlLocked = true;
         inventory = new List<Item>();
+        facingRight = true;
 
         onPlayerLock = new UnityAction(LockControls);
         onPlayerUnlock = new UnityAction(UnlockControls);
     }
 
-    private void OnEnable()//Set up event listeners that can be used to lock player movement from any relevent trigger
+    private void OnEnable()//Set up event listeners that can be used to lock player movement
     {
         EventController.StartListening(EventController.EventType.PlayerLocked, onPlayerLock);
         EventController.StartListening(EventController.EventType.PlayerUnlocked, onPlayerUnlock);
@@ -60,14 +64,26 @@ public class PlayerController : Character
         //Check if player is currently touching the ground and can therefore jump 
         onGround = Physics2D.OverlapCircle(feetLocation.position, colCheckRadius, walkableObjects);
     }
-    private void CheckInput()
+    private void CheckInput() //Input buttons are defined in Unity Project Settings. E.G. Jump is defined as 'w' or 'up' keys
     {
         moveDirection = Input.GetAxis("Horizontal");
+        if (moveDirection > 0 && !facingRight)
+        {
+            ChangeFacing();
+        }//Don't want to use an 'else' here so that if movementDirection is 0 player keeps whatever the previous facing was 
+        if (moveDirection < 0 && facingRight)
+        {
+            ChangeFacing();
+        }
+
         if (Input.GetButtonDown("Jump") && onGround)
         {
             jump = true; 
         }
-
+        if (Input.GetButtonDown("Interact"))
+        {
+            Interact();
+        }
     }
 
     private void Move()
@@ -81,8 +97,31 @@ public class PlayerController : Character
         }
     }
 
+    private void ChangeFacing()
+    {//Character changes direction, mainly used for the Interact functionality to work accurately
+        facingRight = !facingRight;
+        transform.Rotate(0f, 180f, 0f); 
+    }
+
+    private void Interact()//Attempt to interact with object in front of charcter
+    {
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(interactLocation.position, interactCheckRadius);
+        NPC character = null;
+        foreach(Collider2D col in colliders)
+        {
+            if (col.gameObject.GetComponent<NPC>())//TODO: Enable interaction with things other than NPC, perhaps use Interface 'Iinteractable' 
+            {
+                character = col.gameObject.GetComponent<NPC>();
+            }
+        }
+        if (character) { character.Talk(); }
+        
+        
+    }
+
     private void LockControls()
     {
+        moveDirection = 0;
         controlLocked = true;
     }
 
@@ -91,7 +130,7 @@ public class PlayerController : Character
         controlLocked = false;
     }
 
-    public void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         GameObject obj = collision.gameObject;
         switch (obj.tag)

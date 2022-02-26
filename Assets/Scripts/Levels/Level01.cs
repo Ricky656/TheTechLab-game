@@ -9,10 +9,13 @@ public class Level01 : Level
     public DialogueConversation introDialogue;
 
     private UnityAction onDialogueLineEnd;
+    private UnityAction onItemPickup;
     private int dialogueWaitCounter;
+    private NPC professor;
 
     public void StartLevel()
     {
+        professor = GetCharacter("professor").GetComponent<NPC>();
         StartCoroutine(CameraController.CameraFade());
         StartCoroutine(OpeningSequence());
     }
@@ -46,7 +49,19 @@ public class Level01 : Level
             case 9:
                 EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);//Unlock player control
                 EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+
+                onItemPickup = new UnityAction(PickupGun);
+                EventController.StartListening(EventController.EventType.QuestCompleted, onItemPickup);
+
+                professor.AddDoneConversation("done01", this.GetType().ToString());
                 break;
         }
+    }
+
+    private void PickupGun()
+    {
+        professor.ClearDoneConversations();
+        professor.AddActiveConversation("01",this.GetType().ToString());
+        EventController.StopListening(EventController.EventType.QuestCompleted, onItemPickup);
     }
 }
