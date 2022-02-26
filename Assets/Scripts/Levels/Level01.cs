@@ -12,10 +12,12 @@ public class Level01 : Level
     private UnityAction onItemPickup;
     private int dialogueWaitCounter;
     private NPC professor;
+    private GameObject player;
 
     public void StartLevel()
     {
         professor = GetCharacter("professor").GetComponent<NPC>();
+        player = GetCharacter("player");
         StartCoroutine(CameraController.CameraFade());
         StartCoroutine(OpeningSequence());
     }
@@ -62,6 +64,8 @@ public class Level01 : Level
     {
         professor.ClearDoneConversations();
         professor.AddActiveConversation("01",this.GetType().ToString());
+        player.GetComponent<EntanglementGun>().Enable();
+        player.GetComponent<EntanglementGun>().LockControl(false);
         EventController.StopListening(EventController.EventType.QuestCompleted, onItemPickup);
     }
 }

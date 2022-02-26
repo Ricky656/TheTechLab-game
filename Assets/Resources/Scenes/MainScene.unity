@@ -1270,6 +1270,7 @@ MonoBehaviour:
   - {fileID: 1015171654}
   characters:
   - {fileID: 1143497831}
+  - {fileID: 831503643}
   introDialogue: {fileID: 11400000, guid: 0e545e7458955bc4ba114a9e177730d4, type: 2}
 --- !u!1 &1576414245
 GameObject:
@@ -2373,6 +2374,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2668678894090154001, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
+      propertyPath: projectileSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2668678894090154001, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
+      propertyPath: projectilePrefab
+      value: 
+      objectReference: {fileID: 875685979304859039, guid: 51bbc8ac855027d4496f141004070af6, type: 3}
+    - target: {fileID: 5008606968413652697, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008606968413652697, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5008606968413652697, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5548319643907186129, guid: e37c4fd68818a694fa0bb536c1a98187, type: 3}
       propertyPath: m_Name
       value: player

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(EntanglementGun))]
 public class PlayerController : Character
 {
     public float moveSpeed;
@@ -123,11 +124,13 @@ public class PlayerController : Character
     {
         moveDirection = 0;
         controlLocked = true;
+        GetComponent<EntanglementGun>().LockControl(true);
     }
 
     private void UnlockControls()
     {
         controlLocked = false;
+        GetComponent<EntanglementGun>().LockControl(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
