@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(EntanglementGun))]
-public class PlayerController : Character
+public class PlayerController : Character, ISaveable<PlayerData>
 {
     public float moveSpeed;
     public float jumpStrength;
@@ -160,4 +160,18 @@ public class PlayerController : Character
 
         DialogueController.StartConversation(convo);
     }
+
+
+    public PlayerData Save()
+    {
+        PlayerData data = new PlayerData(transform.position, inventory);
+        return data;
+    }
+
+    public void Load(PlayerData data)
+    {
+        transform.position = data.GetPosition();
+        inventory = data.GetInventory();
+    }
+    
 }

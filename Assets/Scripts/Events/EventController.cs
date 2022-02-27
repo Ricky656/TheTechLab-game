@@ -16,10 +16,12 @@ public class EventController : MonoBehaviour
     {
         BulletHit,
         CameraFadeComplete,
+        CheckpointHit,
         DialogueLineFinish,
         DialogueEnd,
         PlayerLocked,
         PlayerUnlocked,
+        PlayerDied,
         QuestCompleted
     }
 

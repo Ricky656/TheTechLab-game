@@ -2,10 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour, IInteractable
+public class Door : LevelObject, IInteractable
 {
     public Item requiredKey;
-
 
     public void Interact(GameObject interactingObject)
     {

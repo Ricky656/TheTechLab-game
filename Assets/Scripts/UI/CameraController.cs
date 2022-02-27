@@ -83,7 +83,6 @@ public class CameraController : MonoBehaviour
         box.SetActive(true);
         Color fadeColor = box.GetComponent<Image>().color;
         float alpha;
-
         if (FadeOut)
         {
             while (box.GetComponent<Image>().color.a < 1)
@@ -105,6 +104,7 @@ public class CameraController : MonoBehaviour
             }
             box.SetActive(false);
         }
+        EventController.TriggerEvent(EventController.EventType.CameraFadeComplete);
     }
 
     private void SetPosition(Vector3 location, float zoomDistance)
