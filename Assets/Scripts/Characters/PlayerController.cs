@@ -147,9 +147,6 @@ public class PlayerController : Character
                 EventController.TriggerEvent(EventController.EventType.QuestCompleted);
                 SendPickupMessage(obj.GetComponent<Item>());
                 break;
-            case "Water":
-
-                break;
         }
     }
 

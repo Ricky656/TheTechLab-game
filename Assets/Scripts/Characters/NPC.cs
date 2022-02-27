@@ -112,13 +112,14 @@ public class NPC : Character, IInteractable
         interactableMarker.GetComponent<Animator>().SetTrigger("Appear");
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.gameObject.GetComponent<EntangleProjectile>())
+        if (collision.collider.gameObject.GetComponent<EntangleProjectile>())
         {
             Attacked();
         }
     }
+
 
     //Functions to change what conversations player can currently have with this character         
     public void AddDoneConversation(DialogueConversation convo)
