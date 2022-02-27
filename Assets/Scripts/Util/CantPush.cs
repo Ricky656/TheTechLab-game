@@ -15,7 +15,7 @@ public class CantPush : MonoBehaviour //Stops the player from being able to push
     {
         if (col.collider.gameObject.tag == "Player")
         {
-            rigid.velocity = new Vector2(0, rigid.velocity.y);
+            rigid.velocity = new Vector2(0, 0);//rigid.velocity.y);
             rigid.isKinematic = true;
         }
     }

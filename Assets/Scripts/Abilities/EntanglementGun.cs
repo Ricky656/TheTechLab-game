@@ -97,7 +97,7 @@ public class EntanglementGun : MonoBehaviour
     private void CheckInput()
     {
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && entangledObject == null)
         {
             fire = true;
         }

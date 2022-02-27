@@ -65,6 +65,12 @@ public class PlayerController : Character
         //Check if player is currently touching the ground and can therefore jump 
         onGround = Physics2D.OverlapCircle(feetLocation.position, colCheckRadius, walkableObjects);
     }
+
+    public List<Item> GetInventory()
+    {
+        return inventory;
+    }
+
     private void CheckInput() //Input buttons are defined in Unity Project Settings. E.G. Jump is defined as 'w' or 'up' keys
     {
         moveDirection = Input.GetAxis("Horizontal");
@@ -108,17 +114,13 @@ public class PlayerController : Character
     private void Interact()//Attempt to interact with object in front of charcter
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(interactLocation.position, interactCheckRadius);
-        NPC character = null;
-        foreach(Collider2D col in colliders)
+        IInteractable targetInteraction = null;
+        foreach (Collider2D col in colliders)
         {
-            if (col.gameObject.GetComponent<NPC>())//TODO: Enable interaction with things other than NPC, perhaps use Interface 'Iinteractable' 
-            {
-                character = col.gameObject.GetComponent<NPC>();
-            }
+            targetInteraction = col.gameObject.GetComponent<IInteractable>();
         }
-        if (character) { character.Talk(); }
-        
-        
+        if (targetInteraction !=null) { targetInteraction.Interact(gameObject); }
+          
     }
 
     private void LockControls()
@@ -155,7 +157,7 @@ public class PlayerController : Character
     {
         DialogueConversation convo = ScriptableObject.CreateInstance("DialogueConversation") as DialogueConversation;
         DialogueLine message = new DialogueLine();
-        message.text = obj.pickupMessage + obj.itemName;    
+        message.text = obj.pickupMessage + obj.itemName + "!";    
         convo.gameHalt = false;
         convo.dialogueLines = new DialogueLine[] { message };
 

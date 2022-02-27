@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : Character
+public class NPC : Character, IInteractable
 {
     public GameObject interactableMarker;//Every NPC has their own exclamation mark, shown if they have an active conversation.
     public DialogueConversation[] dialogues; //All conversations this character can use in the game
@@ -28,8 +28,14 @@ public class NPC : Character
         if (!interactableMarker && dialogues.Length>0) { Debug.Log($"<color=yellow>{gameObject.name} missing dialogueMarker!</color>"); }
     }
     
-
-    public void Talk()
+    public void Interact(GameObject interactingObject)
+    {
+        if(interactingObject.tag == "Player")
+        {
+            Talk();
+        }
+    }
+    private void Talk()
     {
         if (activeConversations.Count > 0)
         {
