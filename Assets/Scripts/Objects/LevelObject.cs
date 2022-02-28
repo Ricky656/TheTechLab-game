@@ -8,7 +8,8 @@ public class LevelObject : MonoBehaviour, ISaveable<ObjectData>
 
     public ObjectData Save()
     {
-        return new ObjectData(gameObject.name, transform.position, gameObject.activeSelf);
+        ObjectData data= new ObjectData(gameObject.name, transform.position, gameObject.activeSelf);
+        return data;
     }
 
     public void Load(ObjectData data)

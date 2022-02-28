@@ -90,7 +90,7 @@ public class CameraController : MonoBehaviour
                 alpha = fadeColor.a + (speed * Time.deltaTime);
                 fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, alpha);
                 box.GetComponent<Image>().color = fadeColor;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
         }
         else
@@ -100,7 +100,7 @@ public class CameraController : MonoBehaviour
                 alpha = fadeColor.a - (speed * Time.deltaTime);
                 fadeColor = new Color(fadeColor.r, fadeColor.g, fadeColor.b, alpha);
                 box.GetComponent<Image>().color = fadeColor;
-                yield return null;
+                yield return new WaitForFixedUpdate();
             }
             box.SetActive(false);
         }

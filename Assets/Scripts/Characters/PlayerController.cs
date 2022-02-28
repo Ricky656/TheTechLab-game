@@ -118,8 +118,11 @@ public class PlayerController : Character, ISaveable<PlayerData>
         IInteractable targetInteraction = null;
         foreach (Collider2D col in colliders)
         {
-            Debug.Log($"Checking: {col.gameObject}");
-            targetInteraction = col.gameObject.GetComponent<IInteractable>();
+            if (col.gameObject.GetComponent<IInteractable>() !=null)
+            {
+                targetInteraction = col.gameObject.GetComponent<IInteractable>();
+            }
+            
         }
         if (targetInteraction !=null) { targetInteraction.Interact(gameObject); }
           
@@ -175,6 +178,16 @@ public class PlayerController : Character, ISaveable<PlayerData>
     {
         transform.position = data.GetPosition();
         inventory = data.GetInventory();
+        if (data.HasGun())
+        {
+            GetComponent<EntanglementGun>().Enable();
+            GetComponent<EntanglementGun>().LockControl(false);
+        }
+        else
+        {
+            GetComponent<EntanglementGun>().Disable();
+            GetComponent<EntanglementGun>().LockControl(true);
+        }
     }
     
 }

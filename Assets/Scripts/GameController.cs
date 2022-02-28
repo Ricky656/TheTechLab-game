@@ -8,6 +8,7 @@ public class GameController : MonoBehaviour
 {
     public GameObject playerCharacter;
     public Checkpoint startPoint;
+    public Level[] levelList;
 
     private Checkpoint currentCheckpoint;
     private int currentCheckpointIndex;
@@ -26,8 +27,13 @@ public class GameController : MonoBehaviour
     {
         if (!controller)
         {
-            controller = this; 
+            controller = this;
         }
+    }
+    public void Start()
+    {
+        currentSaveData = SaveLoadTools.LoadGameData();
+        UIController.InitializeMainMenu(currentSaveData);
     }
     public void StartGame()
     {
@@ -37,13 +43,26 @@ public class GameController : MonoBehaviour
 
         currentCheckpointIndex = 0;
         currentCheckpoint = startPoint;
-        EventController.StartListening(EventController.EventType.CheckpointHit, OnCheckpointHit);
-        EventController.StartListening(EventController.EventType.PlayerDied, OnPlayerDied);
+        InitializeListeners();
+    }
+
+    public void ContinueGame()
+    {
+        InitializeListeners();
+        Debug.Log("Continue Game");
+        GameObject.Find("StartMenu").gameObject.SetActive(false);
+        OnPlayerDied();
     }
 
     public void ExitGame()
     {
+        Application.Quit();
+    }
 
+    private void InitializeListeners()
+    {
+        EventController.StartListening(EventController.EventType.CheckpointHit, OnCheckpointHit);
+        EventController.StartListening(EventController.EventType.PlayerDied, OnPlayerDied);
     }
 
     private void OnCheckpointHit(object data)
@@ -71,19 +90,23 @@ public class GameController : MonoBehaviour
         DialogueController.EndConversation();
         playerCharacter.GetComponent<EntanglementGun>().Disentangle();
         LoadLevel();
+        CameraController.SetCameraMode(CameraController.CameraMode.Normal);
         CameraController.CameraMove(playerCharacter.GetComponent<CameraFlag>().gameObject);
         StartCoroutine(CameraController.CameraFade(false));
         EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
     }
 
 
+    #region Save/Load code
     private void LoadLevel()
     {
         Debug.Log("Loading level");
         playerCharacter.GetComponent<ISaveable<PlayerData>>().Load(currentSaveData.playerData);
 
+        //TODO: Need better way to grab all relevent objects, this is resource-intensive and is easy to accidentally introduce logical bugs.
+        //All objects should be stored so they can be located, otherwise this is the only solution (GameObject.Find functions only finds active objects, which is insufficient) 
         var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
-        var npcs = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<NPCData>>();
+        var npcs = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<NPCData>>();           
 
         foreach (MonoBehaviour obj in objects)//TODO: Refactor
         {
@@ -107,6 +130,17 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        foreach(Level level in controller.levelList)
+        {
+            foreach(LevelData data in currentSaveData.levelData)
+            {
+                if(level.gameObject.name == data.levelName)
+                {
+                    level.Load(data);
+                    break;
+                }
+            }
+        }
 
     }
 
@@ -116,6 +150,7 @@ public class GameController : MonoBehaviour
 
         List<ObjectData> objectsData = new List<ObjectData>();
         List<NPCData> npcData = new List<NPCData>();
+        List<LevelData> levelData = new List<LevelData>();
 
         var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
         foreach(ISaveable<ObjectData> obj in objects)
@@ -130,7 +165,15 @@ public class GameController : MonoBehaviour
             NPCData data = npc.Save();
             npcData.Add(data);
         }
+        foreach(Level level in controller.levelList)
+        {
+            LevelData data = level.Save();
+            levelData.Add(data);
+        }
 
-        controller.currentSaveData = new GameSaveData(playerData, objectsData, npcData);
+
+        controller.currentSaveData = new GameSaveData(playerData, objectsData, npcData,levelData);
+        SaveLoadTools.SaveGameData(controller.currentSaveData);
     }
+    #endregion
 }

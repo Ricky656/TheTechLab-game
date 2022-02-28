@@ -24,7 +24,7 @@ MonoBehaviour:
   - character: {fileID: 0}
     textSpeed: 0.06
     text: Well we should be, but, with the power cut it's a little too dark to really
-      be able to tell...
+      be able to tell...Ohoo!
   - character: {fileID: 0}
     textSpeed: 0.1
     text: <color=yellow><align="center"><size=70><b>THANKS FOR PLAYING!</b></size></align></color>

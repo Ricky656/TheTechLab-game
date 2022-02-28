@@ -95,6 +95,7 @@ public class DialogueController : MonoBehaviour
     public static void EndConversation()//Immediately ends current conversation
     {
         if (controller == null) { Debug.Log("No dialogue controller!"); return; }
+        if(controller.currentConversation == null) { return; }
 
         EventController.TriggerEvent(EventController.EventType.DialogueEnd);
         if (controller.currentConversation.gameHalt)

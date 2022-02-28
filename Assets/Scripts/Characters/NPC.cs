@@ -34,6 +34,7 @@ public class NPC : Character, IInteractable, ISaveable<NPCData>
     {
         if(interactingObject.tag == "Player")
         {
+            Debug.Log($"{gameObject.name} is trying to talk");
             Talk();
         }
     }

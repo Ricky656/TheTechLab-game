@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Level03 : MonoBehaviour
+public class Level03 : Level
 {
 
     public DialogueConversation endDialogue;
@@ -17,21 +17,27 @@ public class Level03 : MonoBehaviour
         janitor.AddAttackedConversation("attacked01", this.GetType().ToString());
         janitor.AddAttackedConversation("attacked02", this.GetType().ToString());
         janitor.AddDeathConversation("death01", this.GetType().ToString());
-
-        EventController.StartListening(EventController.EventType.SwitchFlipped, StartEndSequence);
+        AddListener(EventController.EventType.SwitchFlipped, "StartEndSequence");
     }
 
     private void StartEndSequence()
     {
-        EventController.StopListening(EventController.EventType.SwitchFlipped, StartEndSequence);
+        RemoveListener(EventController.EventType.SwitchFlipped, "StartEndSequence");
         StartCoroutine(CameraController.CameraFade());
-        EventController.StartListening(EventController.EventType.CameraFadeComplete, EndDialogue);
+        AddListener(EventController.EventType.CameraFadeComplete, "EndDialogue");
     }
 
     private void EndDialogue()
     {
-        EventController.StopListening(EventController.EventType.CameraFadeComplete, EndDialogue);
+        RemoveListener(EventController.EventType.CameraFadeComplete, "EndDialogue");
         DialogueController.StartConversation(endDialogue);
+        AddListener(EventController.EventType.DialogueEnd, "ExitGame");
+    }
+
+    private void ExitGame()
+    {
+        RemoveListener(EventController.EventType.DialogueEnd, "ExitGame");
+        Application.Quit();
     }
 
 }

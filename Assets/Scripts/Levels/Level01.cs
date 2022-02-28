@@ -8,16 +8,12 @@ public class Level01 : Level
 
     public DialogueConversation introDialogue;
 
-    private UnityAction onDialogueLineEnd;
-    private UnityAction onItemPickup;
     private int dialogueWaitCounter;
-    private NPC professor;
-    private GameObject player;
+    public NPC professor;
+    public GameObject player;
 
     public void StartLevel()
     {
-        professor = GetCharacter("professor").GetComponent<NPC>();
-        player = GetCharacter("player");
         StartCoroutine(CameraController.CameraFade());
         StartCoroutine(OpeningSequence());
     }
@@ -29,8 +25,7 @@ public class Level01 : Level
         CameraController.CameraMove(GetCameraFlag("start"));
 
         DialogueController.StartConversation(introDialogue);
-        onDialogueLineEnd = new UnityAction(DialogueReactions);
-        EventController.StartListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+        AddListener(EventController.EventType.DialogueLineFinish, "DialogueReactions");
         dialogueWaitCounter = 0;
     }
 
@@ -50,10 +45,9 @@ public class Level01 : Level
                 break;
             case 9:
                 EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);//Unlock player control
-                EventController.StopListening(EventController.EventType.DialogueLineFinish, onDialogueLineEnd);
+                RemoveListener(EventController.EventType.DialogueLineFinish, "DialogueReactions");
 
-                onItemPickup = new UnityAction(PickupGun);
-                EventController.StartListening(EventController.EventType.QuestCompleted, onItemPickup);
+                AddListener(EventController.EventType.QuestCompleted, "PickupGun");
                 CameraController.SetCameraMode(CameraController.CameraMode.Normal);
                 professor.AddDoneConversation("done01", this.GetType().ToString());
                 professor.AddAttackedConversation("Attacked01", this.GetType().ToString());
@@ -66,12 +60,16 @@ public class Level01 : Level
 
     private void PickupGun()
     {
+        Debug.Log($"{gameObject.name.ToString()} activating: Picking up gun");
         professor.ClearDoneConversations();
         professor.AddActiveConversation("01",this.GetType().ToString());
+        Debug.Log("Cont.");
         player.GetComponent<EntanglementGun>().Enable();
-        player.GetComponent<EntanglementGun>().LockControl(false);
-        EventController.StopListening(EventController.EventType.QuestCompleted, onItemPickup);
-        EventController.StartListening(EventController.EventType.BulletHit, EntangleBox);
+        player.GetComponent<EntanglementGun>().LockControl(false);  
+        Debug.Log("Cont.");
+        RemoveListener(EventController.EventType.QuestCompleted, "PickupGun");
+        AddDataListener(EventController.EventType.BulletHit, "EntangleBox");
+        Debug.Log("End");
     }
 
     private void EntangleBox(object data)
@@ -82,7 +80,7 @@ public class Level01 : Level
             professor.ClearActiveConversations();
             professor.AddDoneConversation("done02", this.GetType().ToString());
             professor.AddDoneConversation("done03", this.GetType().ToString());
-            EventController.StopListening(EventController.EventType.BulletHit, EntangleBox);
+            RemoveDataListener(EventController.EventType.BulletHit, "EntangleBox");
         }
     }
 }

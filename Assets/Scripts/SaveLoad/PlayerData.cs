@@ -8,6 +8,7 @@ public class PlayerData
 {
     private float[] positionData;
     private string[] inventoryData;
+    private bool hasGun;
 
     public PlayerData(Vector3 position, List<Item> inventory)
     {
@@ -20,6 +21,10 @@ public class PlayerData
         int index = 0; 
         foreach(Item item in inventory)
         {
+            if(item.identifier == "gun")
+            {
+                hasGun = true;
+            }
             string itemData = $"{item.identifier},{item.itemName},{item.pickupMessage}";
             inventoryData[index] = itemData;
             index++;
@@ -48,5 +53,10 @@ public class PlayerData
             index++;
         }
         return data;
+    }
+
+    public bool HasGun()
+    {
+        return hasGun;
     }
 }

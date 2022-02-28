@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 5817119335275442056}
   - component: {fileID: 341948489160644983}
   - component: {fileID: 6278359879895816200}
-  - component: {fileID: 2292070109852163697}
   - component: {fileID: 936564300728456106}
   m_Layer: 6
   m_Name: pickupItem
@@ -19,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5817119335275442056
 Transform:
   m_ObjectHideFlags: 0
@@ -116,21 +115,6 @@ PolygonCollider2D:
       - {x: 0.503286, y: 0.0033775996}
       - {x: 0.25410372, y: 0.4282114}
       - {x: -0.25457102, y: 0.43326402}
---- !u!114 &2292070109852163697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4781056830316891704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ca02a49bee89e45b9a64c0b44c1c00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  identifier: 
-  itemName: 
-  pickupMessage: 'You discovered the '
 --- !u!95 &936564300728456106
 Animator:
   serializedVersion: 3
