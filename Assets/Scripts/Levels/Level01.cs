@@ -58,6 +58,8 @@ public class Level01 : Level
                 professor.AddDoneConversation("done01", this.GetType().ToString());
                 professor.AddAttackedConversation("Attacked01", this.GetType().ToString());
                 professor.AddAttackedConversation("Attacked02", this.GetType().ToString());
+
+                GameController.SaveGame();
                 break;
         }
     }

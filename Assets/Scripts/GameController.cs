@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     private int currentCheckpointIndex;
     private GameSaveData currentSaveData;
 
+    private static GameController controller; 
+
     public enum GameState 
     {
         MainMenu,
@@ -20,6 +22,13 @@ public class GameController : MonoBehaviour
         Paused
     }
 
+    public void Awake()
+    {
+        if (!controller)
+        {
+            controller = this; 
+        }
+    }
     public void StartGame()
     {
         Debug.Log("Start Game");
@@ -74,8 +83,9 @@ public class GameController : MonoBehaviour
         playerCharacter.GetComponent<ISaveable<PlayerData>>().Load(currentSaveData.playerData);
 
         var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
-        
-        foreach (MonoBehaviour obj in objects)
+        var npcs = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<NPCData>>();
+
+        foreach (MonoBehaviour obj in objects)//TODO: Refactor
         {
             foreach(ObjectData data in currentSaveData.objectData)
             {
@@ -86,15 +96,27 @@ public class GameController : MonoBehaviour
                 }
             }
         }
+        foreach (MonoBehaviour npc in npcs)
+        {
+            foreach (NPCData data in currentSaveData.npcData)
+            {
+                if (npc.gameObject.name == data.GetName())
+                {
+                    npc.GetComponent<ISaveable<NPCData>>().Load(data);
+                    break;
+                }
+            }
+        }
 
-        
     }
 
-    private void SaveGame()
+    public static void SaveGame()
     {
-        PlayerData playerData = new PlayerData(playerCharacter.transform.position, playerCharacter.GetComponent<PlayerController>().GetInventory());
+        PlayerData playerData = new PlayerData(controller.playerCharacter.transform.position, controller.playerCharacter.GetComponent<PlayerController>().GetInventory());
 
         List<ObjectData> objectsData = new List<ObjectData>();
+        List<NPCData> npcData = new List<NPCData>();
+
         var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
         foreach(ISaveable<ObjectData> obj in objects)
         {
@@ -102,6 +124,13 @@ public class GameController : MonoBehaviour
             objectsData.Add(data);
         }
 
-        currentSaveData = new GameSaveData(playerData, objectsData);
+        var npcs = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<NPCData>>();
+        foreach (ISaveable<NPCData> npc in npcs)
+        {
+            NPCData data = npc.Save();
+            npcData.Add(data);
+        }
+
+        controller.currentSaveData = new GameSaveData(playerData, objectsData, npcData);
     }
 }

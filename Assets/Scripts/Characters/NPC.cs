@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : Character, IInteractable, ISaveable<ObjectData>
+public class NPC : Character, IInteractable, ISaveable<NPCData>
 {
     public GameObject interactableMarker;//Every NPC has their own exclamation mark, shown if they have an active conversation.
     public DialogueConversation[] dialogues; //All conversations this character can use in the game
@@ -212,14 +212,58 @@ public class NPC : Character, IInteractable, ISaveable<ObjectData>
     }
     #endregion
 
-    public ObjectData Save()
+    #region save/load code
+    public NPCData Save()
     {
-        return new ObjectData(gameObject.name, transform.position, gameObject.activeSelf);
+        NPCData data = new NPCData(gameObject.name, transform.position, gameObject.activeSelf);
+        data.activeConvoPointers = FindConvoPointers(activeConversations);
+        data.doneConvoPointers = FindConvoPointers(doneConversations);
+        data.attackedConvoPointers = FindConvoPointers(attackedConversations);
+        data.deathConvoPointers = FindConvoPointers(deathConversations);
+        return data;
     }
 
-    public void Load(ObjectData data)
+    public void Load(NPCData data)
     {
         transform.position = data.GetPosition();
         gameObject.SetActive(data.GetActive());
+        activeConversations.Clear();
+        doneConversations.Clear();
+        attackedConversations.Clear();
+        deathConversations.Clear();
+        SetConvosFromPointers(activeConversations, data.activeConvoPointers);
+        SetConvosFromPointers(doneConversations, data.doneConvoPointers);
+        SetConvosFromPointers(attackedConversations, data.attackedConvoPointers);
+        SetConvosFromPointers(deathConversations, data.deathConvoPointers);
     }
+
+    //Creates int 'pointers' that store the 'dialogues' index of conversations currently in use by NPC.
+    //This can be serialized and therefore used to save/load this aspect of the game between sessions
+    private int[] FindConvoPointers(List<DialogueConversation> list)
+    {
+        int[] pointers = new int[list.Count];
+        for(int x =0; x < list.Count; x++)
+        {
+            for(int y=0; y < dialogues.Length; y++)
+            {
+                if(dialogues[y] == list[x])
+                {
+                    pointers[x] = y;
+                    break;
+                }
+            }
+        }
+
+        return pointers;
+    }
+
+    private void SetConvosFromPointers(List<DialogueConversation> list, int[] pointers)
+    {
+        foreach(int index in pointers)
+        {
+            list.Add(dialogues[index]);
+        } 
+    }
+    #endregion
 }
+

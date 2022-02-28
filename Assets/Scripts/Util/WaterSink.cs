@@ -10,10 +10,16 @@ public class WaterSink : MonoBehaviour
         Rigidbody2D rigid = col.gameObject.GetComponent<Rigidbody2D>();
         if (rigid) { rigid.gravityScale = 1.5f; }
 
-        if(col.gameObject.tag == "Player")
+        switch (col.gameObject.tag)
         {
-            StartCoroutine(DeathTimer());
-        }
+            case "Player":
+                StartCoroutine(DeathTimer());
+                break;
+            case "NPC":
+                col.gameObject.GetComponent<NPC>().Die();
+                break;
+
+        }   
     }
 
     private void OnTriggerExit2D(Collider2D col)

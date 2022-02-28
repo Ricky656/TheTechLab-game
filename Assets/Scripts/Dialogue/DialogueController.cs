@@ -80,17 +80,15 @@ public class DialogueController : MonoBehaviour
 
         controller.busy = true;
         controller.gameObject.SetActive(true);
-        //TODO: animation for dialoguebox appearing?
         //TODO: React if already in a conversation? 
-
         controller.currentLineIndex = 0;
         controller.currentConversation = conversation;
         controller.textBox.text = "";
-
         if (conversation.gameHalt)
         {
             EventController.TriggerEvent(EventController.EventType.PlayerLocked);
         }
+        controller.gameObject.GetComponent<Animator>().SetBool("show", true);
         controller.StartCoroutine(controller.TypeLine());
     }
 
@@ -105,7 +103,8 @@ public class DialogueController : MonoBehaviour
         }
         //TODO: animation for dialoguebox disappearing? 
         controller.busy = false;
-        controller.gameObject.SetActive(false);
+        //controller.gameObject.SetActive(false);
+        controller.gameObject.GetComponent<Animator>().SetBool("show", false);
     }
 
     private IEnumerator TypeLine()//Displays current dialogue line using a typing effect, speed is set and can be customized per line in dialogueline objects
@@ -135,7 +134,7 @@ public class DialogueController : MonoBehaviour
         }
         if (!currentConversation.gameHalt)//Automatically go to next line after short delay if this isn't an interactive dialogue 
         {
-            yield return new WaitForSeconds(4);
+            yield return new WaitForSeconds(2.5f);
             NextLine();
         }
         else

@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5015072653929669456}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 145.54, y: -45.93025, z: 0}
+  m_LocalPosition: {x: 148.81, y: -45.93025, z: 0}
   m_LocalScale: {x: 1, y: 2.5, z: 1}
   m_Children:
   - {fileID: 1086280366037976778}
@@ -150,6 +150,11 @@ MonoBehaviour:
   interactableMarker: {fileID: 1086280366037976775}
   dialogues:
   - {fileID: 11400000, guid: f3241e573cb4d6b4890563bb140a3dc2, type: 2}
+  - {fileID: 11400000, guid: 470806100ef69fd4c81d31e39a9d531b, type: 2}
+  - {fileID: 11400000, guid: f8e22ae0807dbd5499b137c3b8401179, type: 2}
+  - {fileID: 11400000, guid: 9a1b778afaba4fe4cbe398810cac67c4, type: 2}
+  - {fileID: 11400000, guid: 72744f483e8fb444e863ab9a6b966011, type: 2}
+  - {fileID: 11400000, guid: 3145eaa3c90fccd4cb8f828f97462779, type: 2}
 --- !u!114 &3983983083743825863
 MonoBehaviour:
   m_ObjectHideFlags: 0

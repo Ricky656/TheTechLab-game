@@ -10,16 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
-  m_Name: Level03_janitor_01
+  m_Name: Level03_janitor_done01
   m_EditorClassIdentifier: 
-  gameHalt: 1
-  repeatable: 0
+  gameHalt: 0
+  repeatable: 1
   dialogueLines:
   - character: {fileID: 0}
     textSpeed: 0.05
-    text: Ho hum... Oh! I was mopping the hallway here but things seem to have gotten
-      out of hand.
-  - character: {fileID: 0}
-    textSpeed: 0.05
-    text: I swear there wasn't this much water before! You'll need to find <color=yellow>something
-      that floats</color> if you want to get across.
+    text: At least the hallway should be very clean now...

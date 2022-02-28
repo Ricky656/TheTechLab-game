@@ -10,16 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
-  m_Name: Level03_janitor_01
+  m_Name: End Dialogue
   m_EditorClassIdentifier: 
   gameHalt: 1
   repeatable: 0
   dialogueLines:
   - character: {fileID: 0}
-    textSpeed: 0.05
-    text: Ho hum... Oh! I was mopping the hallway here but things seem to have gotten
-      out of hand.
+    textSpeed: 0.06
+    text: Oho well done, my boy! I knew you'd make it.
   - character: {fileID: 0}
     textSpeed: 0.05
-    text: I swear there wasn't this much water before! You'll need to find <color=yellow>something
-      that floats</color> if you want to get across.
+    text: 'So we''re back in the 3D world now, right? '
+  - character: {fileID: 0}
+    textSpeed: 0.06
+    text: Well we should be, but, with the power cut it's a little too dark to really
+      be able to tell...
+  - character: {fileID: 0}
+    textSpeed: 0.1
+    text: <color=yellow><align="center"><size=70><b>THANKS FOR PLAYING!</b></size></align></color>

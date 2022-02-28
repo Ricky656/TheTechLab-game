@@ -23,7 +23,8 @@ public class EventController : MonoBehaviour
         PlayerLocked,
         PlayerUnlocked,
         PlayerDied,
-        QuestCompleted
+        QuestCompleted,
+        SwitchFlipped
     }
 
     public static EventController instance
