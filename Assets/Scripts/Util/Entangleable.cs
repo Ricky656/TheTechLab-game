@@ -38,7 +38,7 @@ public class Entangleable : MonoBehaviour
         if (entangled)
         {
             Vector2 velocity = entangledPair.GetComponent<Rigidbody2D>().velocity;
-            GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x,velocity.y/2); //Entangled objects only get half the y velocity to avoid infinite jumping
+            GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x,velocity.y/1.5f); //Entangled objects only get half the y velocity to avoid infinite jumping
         }
     }
 

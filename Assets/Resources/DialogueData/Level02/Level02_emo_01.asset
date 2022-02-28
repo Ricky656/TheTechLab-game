@@ -10,19 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
-  m_Name: Level01_professor_01
+  m_Name: Level02_emo_01
   m_EditorClassIdentifier: 
   gameHalt: 1
-  repeatable: 1
+  repeatable: 0
   dialogueLines:
   - character: {fileID: 0}
-    textSpeed: 0.06
-    text: Huzzah, you have it! With this gun you can entangle yourself to another
-      object.
+    textSpeed: 0.04
+    text: Ugh, the lab door is locked! I've got a song to work on but I can't leave...
   - character: {fileID: 0}
-    textSpeed: 0.06
-    text: Aim and fire it with <size=50><sprite name="lmb"></size>, you can disentangle
-      yourself with <size=50><sprite name="rmb"></size>
-  - character: {fileID: 0}
-    textSpeed: 0.06
-    text: Fire it at that box blocking the door and see what happens!
+    textSpeed: 0.04
+    text: 'The key is on the shelf back there, but I won''t help you reach it. Leave
+      me alone. '

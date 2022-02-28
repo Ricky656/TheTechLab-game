@@ -33,14 +33,19 @@ public class PlayerData
     public List<Item> GetInventory()
     {
         List<Item> data = new List<Item>();
-        foreach(string item in inventoryData)
+        Item[] existingItems = Resources.FindObjectsOfTypeAll<Item>();
+        int index = 0;
+        foreach (string item in inventoryData)
         {
-            Item newItem = new Item();
             string[] values = item.Split(',');
-            newItem.identifier = values[0];
-            newItem.itemName = values[1];
-            newItem.pickupMessage = values[2];
-            data.Add(newItem);
+            //identifier = values[0];
+            //itemName = values[1];
+            //pickupMessage = values[2];
+            if (existingItems[index].identifier == values[0])
+            {
+                data.Add(existingItems[index]);
+            }
+            index++;
         }
         return data;
     }

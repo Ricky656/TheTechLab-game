@@ -3,14 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class NPC : Character, IInteractable
+public class NPC : Character, IInteractable, ISaveable<ObjectData>
 {
     public GameObject interactableMarker;//Every NPC has their own exclamation mark, shown if they have an active conversation.
     public DialogueConversation[] dialogues; //All conversations this character can use in the game
 
-    private List<DialogueConversation> activeConversations; //Currently used active conversations
-    private List<DialogueConversation> doneConversations;  //Currently used 'done' messages
-    private List<DialogueConversation> attackedConversations; //Currently used messages for when an NPC is hit by the entanglement gun 
+    private List<DialogueConversation> activeConversations; //Current possible conversations split by type
+    private List<DialogueConversation> doneConversations;  //^
+    private List<DialogueConversation> attackedConversations; //^
+    private List<DialogueConversation> deathConversations; //^
     private DialogueConversation currentConversation;
     private UnityAction onDialogueEnd;
     private Rigidbody2D rigid;
@@ -25,6 +26,7 @@ public class NPC : Character, IInteractable
         activeConversations = new List<DialogueConversation>();
         doneConversations = new List<DialogueConversation>();
         attackedConversations = new List<DialogueConversation>();
+        deathConversations = new List<DialogueConversation>(); 
         if (!interactableMarker && dialogues.Length>0) { Debug.Log($"<color=yellow>{gameObject.name} missing dialogueMarker!</color>"); }
     }
     
@@ -35,6 +37,17 @@ public class NPC : Character, IInteractable
             Talk();
         }
     }
+
+    public void Die()
+    {
+        if(deathConversations.Count > 0)
+        {
+            int rnd = Random.Range(0, attackedConversations.Count);
+            currentConversation = deathConversations[rnd];
+            DialogueController.StartConversation(currentConversation);
+        } 
+    }
+
     private void Talk()
     {
         if (activeConversations.Count > 0)
@@ -121,13 +134,13 @@ public class NPC : Character, IInteractable
     }
 
 
-    //Functions to change what conversations player can currently have with this character         
-    public void AddDoneConversation(DialogueConversation convo)
+    #region  Alter current conversations of NPC    
+    public void AddDoneConversation(DialogueConversation convo)//Conversations can be added either directly, or by giving the name and level of conversation
     {
         doneConversations.Add(convo);
     }
 
-    public void AddDoneConversation(string conversationName, string levelName)//Conversations can be added either directly, or by giving the name and level of conversation
+    public void AddDoneConversation(string conversationName, string levelName)
     {
         doneConversations.Add(GetDialogue(levelName,conversationName));
     }
@@ -152,6 +165,16 @@ public class NPC : Character, IInteractable
         attackedConversations.Add(GetDialogue(levelName, conversationName));
     }
 
+    public void AddDeathConversation(string conversationName, string levelName)
+    {
+        deathConversations.Add(GetDialogue(levelName, conversationName));
+    }
+
+    public void AddDeathConversation(DialogueConversation convo)
+    {
+        deathConversations.Add(convo);
+    }
+
     public void ClearActiveConversations()
     {
         activeConversations.Clear();
@@ -166,8 +189,13 @@ public class NPC : Character, IInteractable
     public void ClearAttackedConversations()
     {
         attackedConversations.Clear();
+        attackedConvoIndex = 0; 
     }
 
+    public void ClearDeathConversations()
+    {
+        deathConversations.Clear();
+    }
 
     public DialogueConversation GetDialogue(string levelName, string identifier)
     {
@@ -182,5 +210,16 @@ public class NPC : Character, IInteractable
         Debug.Log($"<color=yellow>Cannot find dialogue of name {searchString}, please ensure all Dialogues are placed on the correct character with the name format of: '(LevelName)_(characterName)_(identifier)'</color>");
         return null;
     }
-    
+    #endregion
+
+    public ObjectData Save()
+    {
+        return new ObjectData(gameObject.name, transform.position, gameObject.activeSelf);
+    }
+
+    public void Load(ObjectData data)
+    {
+        transform.position = data.GetPosition();
+        gameObject.SetActive(data.GetActive());
+    }
 }

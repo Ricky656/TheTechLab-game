@@ -11,7 +11,15 @@ public class GameController : MonoBehaviour
 
     private Checkpoint currentCheckpoint;
     private int currentCheckpointIndex;
-    private GameSaveData currentSaveData; 
+    private GameSaveData currentSaveData;
+
+    public enum GameState 
+    {
+        MainMenu,
+        Playing,
+        Paused
+    }
+
     public void StartGame()
     {
         Debug.Log("Start Game");
@@ -36,6 +44,7 @@ public class GameController : MonoBehaviour
         if(checkpoint.checkpointNumber > currentCheckpointIndex)
         {
             currentCheckpoint = checkpoint;
+            currentCheckpointIndex = checkpoint.checkpointNumber;
             SaveGame();
         }
     }
@@ -51,6 +60,7 @@ public class GameController : MonoBehaviour
     {
         EventController.StopListening(EventController.EventType.CameraFadeComplete, Respawn);
         DialogueController.EndConversation();
+        playerCharacter.GetComponent<EntanglementGun>().Disentangle();
         LoadLevel();
         CameraController.CameraMove(playerCharacter.GetComponent<CameraFlag>().gameObject);
         StartCoroutine(CameraController.CameraFade(false));
@@ -63,7 +73,8 @@ public class GameController : MonoBehaviour
         Debug.Log("Loading level");
         playerCharacter.GetComponent<ISaveable<PlayerData>>().Load(currentSaveData.playerData);
 
-        var objects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
+        var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
+        
         foreach (MonoBehaviour obj in objects)
         {
             foreach(ObjectData data in currentSaveData.objectData)
@@ -84,7 +95,7 @@ public class GameController : MonoBehaviour
         PlayerData playerData = new PlayerData(playerCharacter.transform.position, playerCharacter.GetComponent<PlayerController>().GetInventory());
 
         List<ObjectData> objectsData = new List<ObjectData>();
-        var objects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
+        var objects = Resources.FindObjectsOfTypeAll<MonoBehaviour>().OfType<ISaveable<ObjectData>>();
         foreach(ISaveable<ObjectData> obj in objects)
         {
             ObjectData data = obj.Save();

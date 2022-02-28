@@ -19,6 +19,7 @@ public class EventController : MonoBehaviour
         CheckpointHit,
         DialogueLineFinish,
         DialogueEnd,
+        DoorOpen,
         PlayerLocked,
         PlayerUnlocked,
         PlayerDied,

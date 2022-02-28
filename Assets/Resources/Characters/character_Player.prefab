@@ -54,7 +54,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5531071251819060828}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.8042793, y: 0.37210274, z: -381.47775}
+  m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 5548319643907186133}
@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 715691778337456626}
   - component: {fileID: 795892507}
   - component: {fileID: 2668678894090154001}
+  - component: {fileID: 831503651}
   m_Layer: 0
   m_Name: character_Player
   m_TagString: Player
@@ -214,10 +215,10 @@ MonoBehaviour:
   feetLocation: {fileID: 1576343727}
   interactLocation: {fileID: 8202704479843074056}
   colCheckRadius: 0.2
-  interactCheckRadius: 0.5
+  interactCheckRadius: 0.8
   walkableObjects:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 192
   animator: {fileID: 795892507}
 --- !u!95 &795892507
 Animator:
@@ -252,6 +253,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   centrePoint: {fileID: 5008606968413652697}
   aimLength: 1
+  projectilePrefab: {fileID: 875685979304859039, guid: 51bbc8ac855027d4496f141004070af6, type: 3}
+  projectileSpeed: 10
+  particleEffectPrefab: {fileID: 7293847937496672681, guid: 1ac180c26bba519419ec780ce839f1ee, type: 3}
+--- !u!114 &831503651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5548319643907186129}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e8cdba6f59c204498a17fedc60870a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  distance: 6
 --- !u!1 &5779749044522229785
 GameObject:
   m_ObjectHideFlags: 0

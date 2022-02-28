@@ -113,10 +113,12 @@ public class PlayerController : Character, ISaveable<PlayerData>
 
     private void Interact()//Attempt to interact with object in front of charcter
     {
+        Debug.Log("Trying to interact");
         Collider2D[] colliders = Physics2D.OverlapCircleAll(interactLocation.position, interactCheckRadius);
         IInteractable targetInteraction = null;
         foreach (Collider2D col in colliders)
         {
+            Debug.Log($"Checking: {col.gameObject}");
             targetInteraction = col.gameObject.GetComponent<IInteractable>();
         }
         if (targetInteraction !=null) { targetInteraction.Interact(gameObject); }
@@ -142,6 +144,7 @@ public class PlayerController : Character, ISaveable<PlayerData>
         switch (obj.tag)
         {
             case "Pickup":
+                Item item = obj.GetComponent<Item>();
                 inventory.Add(obj.GetComponent<Item>()); //Add pickup to inventory, disable object and send event saying quest has been completed. (All pickups are 'quest objectives')
                 obj.SetActive(false);
                 EventController.TriggerEvent(EventController.EventType.QuestCompleted);

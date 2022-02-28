@@ -11,7 +11,7 @@ public class ObjectData
     {
         activeData = active;
         nameData = name;
-        positionData = new float[3];
+        positionData =  new float[3];
         positionData[0] = position.x;
         positionData[1] = position.y;
         positionData[2] = position.z; 

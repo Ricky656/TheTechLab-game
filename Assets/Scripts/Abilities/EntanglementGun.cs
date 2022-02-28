@@ -81,8 +81,9 @@ public class EntanglementGun : MonoBehaviour
         }
     }
 
-    private void Disentangle()
+    public void Disentangle()
     {
+        if (entangledObject == null) { return; }
         entangledObject.GetComponent<Entangleable>().Disentangle();
         entangledObject = null;
         particleEffect.SetActive(false);

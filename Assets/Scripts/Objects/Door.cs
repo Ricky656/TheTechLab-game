@@ -30,6 +30,7 @@ public class Door : LevelObject, IInteractable
     {
         //TODO: Animations for door opening, sound effects etc...
         gameObject.SetActive(false);
+        EventController.TriggerEvent(EventController.EventType.DoorOpen);
     }
 
     private void DisplayMessage(string text)
