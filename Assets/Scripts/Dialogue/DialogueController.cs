@@ -70,6 +70,7 @@ public class DialogueController : MonoBehaviour
         {
             if (controller.currentConversation.gameHalt)//Don't allow conversations that halt the game to be interrupted by other messages
             {
+                Debug.Log("Nop");
                 return;
             }
             else
@@ -96,16 +97,14 @@ public class DialogueController : MonoBehaviour
     {
         if (controller == null) { Debug.Log("No dialogue controller!"); return; }
         if(controller.currentConversation == null) { return; }
-
-        EventController.TriggerEvent(EventController.EventType.DialogueEnd);
+        controller.busy = false;
         if (controller.currentConversation.gameHalt)
         {
             EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
         }
-        //TODO: animation for dialoguebox disappearing? 
-        controller.busy = false;
         //controller.gameObject.SetActive(false);
         controller.gameObject.GetComponent<Animator>().SetBool("show", false);
+        EventController.TriggerEvent(EventController.EventType.DialogueEnd);
     }
 
     private IEnumerator TypeLine()//Displays current dialogue line using a typing effect, speed is set and can be customized per line in dialogueline objects

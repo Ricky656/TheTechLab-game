@@ -5022,6 +5022,7 @@ MonoBehaviour:
   - {fileID: 1143497831}
   - {fileID: 831503643}
   introDialogue: {fileID: 11400000, guid: 0e545e7458955bc4ba114a9e177730d4, type: 2}
+  tutorialDialogue: {fileID: 11400000, guid: 1deef8e35d52e8e49b1aeab0834931f5, type: 2}
   professor: {fileID: 1143497834}
   player: {fileID: 831503643}
 --- !u!1 &1576414245

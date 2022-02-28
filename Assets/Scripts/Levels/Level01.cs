@@ -7,6 +7,7 @@ public class Level01 : Level
 {
 
     public DialogueConversation introDialogue;
+    public DialogueConversation tutorialDialogue; 
 
     private int dialogueWaitCounter;
     public NPC professor;
@@ -26,6 +27,7 @@ public class Level01 : Level
 
         DialogueController.StartConversation(introDialogue);
         AddListener(EventController.EventType.DialogueLineFinish, "DialogueReactions");
+        AddListener(EventController.EventType.DialogueEnd, "EndOfOpeningDialogue");
         dialogueWaitCounter = 0;
     }
 
@@ -52,10 +54,15 @@ public class Level01 : Level
                 professor.AddDoneConversation("done01", this.GetType().ToString());
                 professor.AddAttackedConversation("Attacked01", this.GetType().ToString());
                 professor.AddAttackedConversation("Attacked02", this.GetType().ToString());
-
                 GameController.SaveGame();
                 break;
         }
+    }
+
+    private void EndOfOpeningDialogue()
+    {
+        RemoveListener(EventController.EventType.DialogueEnd, "EndOfOpeningDialogue");
+        DialogueController.StartConversation(tutorialDialogue);
     }
 
     private void PickupGun()
