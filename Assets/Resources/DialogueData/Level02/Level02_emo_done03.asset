@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
   m_Name: Level02_emo_done03
   m_EditorClassIdentifier: 
-  gameHalt: 0
+  gameHalt: 1
   repeatable: 1
   dialogueLines:
   - character: {fileID: 0}

@@ -48,7 +48,7 @@ public class DialogueController : MonoBehaviour
                     nextIndicator.gameObject.SetActive(false);
                     NextLine();
                 }
-                else
+                else if(textBox.text.Length > 3)//Stops people from accidentally skipping dialogue with a small grace period
                 {
                     StopAllCoroutines();
                     textBox.text = currentConversation.dialogueLines[currentLineIndex].text;
@@ -70,7 +70,6 @@ public class DialogueController : MonoBehaviour
         {
             if (controller.currentConversation.gameHalt)//Don't allow conversations that halt the game to be interrupted by other messages
             {
-                Debug.Log("Nop");
                 return;
             }
             else

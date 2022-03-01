@@ -101,6 +101,7 @@ public class GameController : MonoBehaviour
     private void LoadLevel()
     {
         Debug.Log("Loading level");
+        currentSaveData = SaveLoadTools.LoadGameData();
         playerCharacter.GetComponent<ISaveable<PlayerData>>().Load(currentSaveData.playerData);
 
         //TODO: Need better way to grab all relevent objects, this is resource-intensive and is easy to accidentally introduce logical bugs.
@@ -136,6 +137,7 @@ public class GameController : MonoBehaviour
             {
                 if(level.gameObject.name == data.levelName)
                 {
+                    Debug.Log($"Loading level: {data.levelName}");
                     level.Load(data);
                     break;
                 }

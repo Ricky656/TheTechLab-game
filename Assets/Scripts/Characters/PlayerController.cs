@@ -28,6 +28,7 @@ public class PlayerController : Character, ISaveable<PlayerData>
 
     private void Awake()
     {
+        gameObject.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rigid = gameObject.GetComponent<Rigidbody2D>();
         controlLocked = true;
         inventory = new List<Item>();

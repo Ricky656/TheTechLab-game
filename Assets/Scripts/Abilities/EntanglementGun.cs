@@ -42,8 +42,6 @@ public class EntanglementGun : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
         if (!controlLocked)
@@ -73,6 +71,7 @@ public class EntanglementGun : MonoBehaviour
         {
             if (objects[1].gameObject.GetComponent<Entangleable>())
             {
+                if (entangledObject != null) { entangledObject.GetComponent<Entangleable>().Disentangle(); }
                 Debug.Log($"{gameObject.ToString()} is now entangled with: {objects[1].ToString()}");
                 entangledObject = objects[1];
                 entangledObject.GetComponent<Entangleable>().Entangle(gameObject);

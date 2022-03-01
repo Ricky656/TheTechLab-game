@@ -67,22 +67,19 @@ public class Level01 : Level
 
     private void PickupGun()
     {
-        Debug.Log($"{gameObject.name.ToString()} activating: Picking up gun");
+        Debug.Log("Pickup gun");
         professor.ClearDoneConversations();
         professor.AddActiveConversation("01",this.GetType().ToString());
-        Debug.Log("Cont.");
         player.GetComponent<EntanglementGun>().Enable();
         player.GetComponent<EntanglementGun>().LockControl(false);  
-        Debug.Log("Cont.");
         RemoveListener(EventController.EventType.QuestCompleted, "PickupGun");
         AddDataListener(EventController.EventType.BulletHit, "EntangleBox");
-        Debug.Log("End");
     }
 
     private void EntangleBox(object data)
     {
         GameObject[] objs = (GameObject[])data;
-        if(objs[1].name == "box")
+        if(objs[1].name == "level01_box")
         {
             professor.ClearActiveConversations();
             professor.AddDoneConversation("done02", this.GetType().ToString());

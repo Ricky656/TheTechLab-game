@@ -14,6 +14,7 @@ public class Entangleable : MonoBehaviour
 
     public void Awake()
     {
+        gameObject.GetComponent<Rigidbody2D>().collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         particleEffect = Instantiate(particleEffectPrefab);
         particleEffect.transform.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y - (GetComponent<BoxCollider2D>().bounds.extents.y));
         particleEffect.SetActive(false);//TODO: Refactor this block, code also appears in EntanglementGun! 
@@ -37,8 +38,12 @@ public class Entangleable : MonoBehaviour
     {
         if (entangled)
         {
-            Vector2 velocity = entangledPair.GetComponent<Rigidbody2D>().velocity;
-            GetComponent<Rigidbody2D>().velocity = new Vector2(velocity.x,velocity.y/1.5f); //Entangled objects only get half the y velocity to avoid infinite jumping
+            Vector2 entangledVelocity = entangledPair.GetComponent<Rigidbody2D>().velocity;
+            Vector2 newVelocity = new Vector2(entangledVelocity.x, entangledVelocity.y / 1.5f);
+
+             GetComponent<Rigidbody2D>().velocity = newVelocity; //Entangled objects only get reduced y velocity to avoid infinite jumping
+
+            //GetComponent<Rigidbody2D>().AddForce(new Vector2(velocity.x, velocity.y / 1.5f)*5);
         }
     }
 

@@ -3696,8 +3696,8 @@ GameObject:
   - component: {fileID: 1143497836}
   - component: {fileID: 1143497835}
   - component: {fileID: 1143497834}
-  - component: {fileID: 1143497833}
   - component: {fileID: 1143497832}
+  - component: {fileID: 1143497833}
   m_Layer: 6
   m_Name: professor
   m_TagString: NPC
@@ -7993,7 +7993,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7131688500229187758, guid: 44b92b03b9573a047830e9ecd1b50ba9, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7131688500229187758, guid: 44b92b03b9573a047830e9ecd1b50ba9, type: 3}
       propertyPath: m_LocalPosition.x
