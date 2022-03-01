@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036813a52f69991439de8f2e0d4319bd, type: 3}
   m_Name: Level01_TutorialMessage
   m_EditorClassIdentifier: 
-  gameHalt: 0
+  gameHalt: 1
   repeatable: 0
   dialogueLines:
   - character: {fileID: 0}
     textSpeed: 0
     text: 'Move with <size=60><sprite name="wad"></size>
 
-      Talk to people with
-      <size=60><sprite name="space"></size>'
+      Interact with <size=60><sprite
+      name="space"></size>'

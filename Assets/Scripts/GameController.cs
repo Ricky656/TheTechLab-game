@@ -13,6 +13,8 @@ public class GameController : MonoBehaviour
     private Checkpoint currentCheckpoint;
     private int currentCheckpointIndex;
     private GameSaveData currentSaveData;
+    private GameState currentGameState;
+    private bool playerDead;
 
     private static GameController controller; 
 
@@ -28,22 +30,25 @@ public class GameController : MonoBehaviour
         if (!controller)
         {
             controller = this;
+            currentGameState = GameState.MainMenu;
         }
     }
     public void Start()
     {
         currentSaveData = SaveLoadTools.LoadGameData();
         UIController.InitializeMainMenu(currentSaveData);
+        UIController.SetMenu(UIController.menus.Main);
     }
     public void StartGame()
     {
         Debug.Log("Start Game");
-        GameObject.Find("StartMenu").gameObject.SetActive(false);
+        UIController.SetMenu(UIController.menus.None);
         GameObject.Find("Level01").gameObject.GetComponent<Level01>().StartLevel();
 
         currentCheckpointIndex = 0;
         currentCheckpoint = startPoint;
         InitializeListeners();
+        currentGameState = GameState.Playing;
     }
 
     public void ContinueGame()
@@ -52,6 +57,42 @@ public class GameController : MonoBehaviour
         Debug.Log("Continue Game");
         GameObject.Find("StartMenu").gameObject.SetActive(false);
         OnPlayerDied();
+        currentGameState = GameState.Playing;
+    }
+
+    public void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            switch (currentGameState)
+            {
+                case GameState.Playing:
+                    PauseGame();
+                    break;
+                case GameState.Paused:
+                    UnpauseGame(); ;
+                    break;
+            }
+        }
+    }
+
+
+    public static GameState GetGameState()
+    {
+        return controller.currentGameState;
+    }
+    private void PauseGame()
+    {
+        currentGameState = GameState.Paused;
+        EventController.TriggerEvent(EventController.EventType.PlayerLocked);
+        UIController.SetMenu(UIController.menus.Pause);
+    }
+
+    public void UnpauseGame()
+    {
+        currentGameState = GameState.Playing;
+        EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
+        UIController.SetMenu(UIController.menus.None);
     }
 
     public void ExitGame()
@@ -59,8 +100,16 @@ public class GameController : MonoBehaviour
         Application.Quit();
     }
 
+    public void RestartCheckpoint()
+    {
+        UIController.SetMenu(UIController.menus.None);
+        currentGameState = GameState.Playing; 
+        OnPlayerDied();
+    }
+
     private void InitializeListeners()
     {
+        playerDead = false;
         EventController.StartListening(EventController.EventType.CheckpointHit, OnCheckpointHit);
         EventController.StartListening(EventController.EventType.PlayerDied, OnPlayerDied);
     }
@@ -79,21 +128,25 @@ public class GameController : MonoBehaviour
 
     private void OnPlayerDied()
     {
-        StartCoroutine(CameraController.CameraFade());
+        if(playerDead) { return; }
+        playerDead = true;
+        CameraController.SetCameraFade();
+        DialogueController.EndConversation();
         EventController.TriggerEvent(EventController.EventType.PlayerLocked);
-        EventController.StartListening(EventController.EventType.CameraFadeComplete, Respawn);   
+        EventController.StartListening(EventController.EventType.CameraFadeComplete, Respawn); 
+        
     }
 
     private void Respawn()
     {
         EventController.StopListening(EventController.EventType.CameraFadeComplete, Respawn);
-        DialogueController.EndConversation();
         playerCharacter.GetComponent<EntanglementGun>().Disentangle();
         LoadLevel();
         CameraController.SetCameraMode(CameraController.CameraMode.Normal);
         CameraController.CameraMove(playerCharacter.GetComponent<CameraFlag>().gameObject);
-        StartCoroutine(CameraController.CameraFade(false));
+        CameraController.SetCameraFade(false);
         EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
+        playerDead = false;
     }
 
 

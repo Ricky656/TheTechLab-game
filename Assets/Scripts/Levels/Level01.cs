@@ -15,7 +15,7 @@ public class Level01 : Level
 
     public void StartLevel()
     {
-        StartCoroutine(CameraController.CameraFade());
+        CameraController.SetCameraFade();
         StartCoroutine(OpeningSequence());
     }
 
@@ -37,7 +37,7 @@ public class Level01 : Level
         switch (dialogueWaitCounter)
         {
             case 2://Doesn't execute until two dialogue lines have finished/
-                StartCoroutine(CameraController.CameraFade(false));
+                CameraController.SetCameraFade(false);
                 break;
             case 4:
                 CameraController.CameraMove(GetCameraFlag("01"), true);

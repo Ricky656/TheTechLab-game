@@ -6,10 +6,19 @@ using UnityEngine.Events;
 
 public class UIController : MonoBehaviour
 {
-    public GameObject mainmenu;
+    public GameObject mainMenu;
     public GameObject continueButton;
+    public GameObject pauseMenu;
+
 
     private static UIController controller;
+
+    public enum menus
+    {
+        None,
+        Main,
+        Pause
+    }
 
     public void Awake()
     {
@@ -19,9 +28,34 @@ public class UIController : MonoBehaviour
         }
     }
 
-    public static void SetMainMenu(bool visible)
+    public static void SetMenu(menus menu)
     {
-        controller.mainmenu.SetActive(visible);
+        switch (menu)
+        {
+            case menus.None:
+                controller.SetMainMenu(false);
+                controller.SetPauseMenu(false);
+                break;
+            case menus.Main:
+                controller.SetMainMenu(true);
+                controller.SetPauseMenu(false);
+                break;
+            case menus.Pause:
+                controller.SetMainMenu(false);
+                controller.SetPauseMenu(true);
+                break;
+
+        }
+    }
+
+    private void SetMainMenu(bool visible)//Animations and such could go here
+    {
+        controller.mainMenu.SetActive(visible);
+    }
+
+    private void SetPauseMenu(bool visible)
+    {
+        controller.pauseMenu.SetActive(visible);
     }
 
     public static void InitializeMainMenu(GameSaveData data)

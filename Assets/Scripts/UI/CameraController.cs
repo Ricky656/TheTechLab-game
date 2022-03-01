@@ -41,6 +41,7 @@ public class CameraController : MonoBehaviour
 
     public void Update()
     {
+        if(GameController.GetGameState() == GameController.GameState.Paused) { return; }
         switch (currentMode)
         {
             case CameraMode.Normal:
@@ -77,8 +78,18 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    public static IEnumerator CameraFade(bool FadeOut = true, float speed = defaultFadeSpeed)//Fade camera to/from black, lower speed = faster fade
+    public static void SetCameraFade(bool FadeOut = true, float speed = defaultFadeSpeed)
     {
+        controller.StopCoroutine(controller.CameraFade());//stops any camera fades already running, then starts a new one.
+        controller.StartCoroutine(controller.CameraFade(FadeOut, speed));
+    }
+
+    private IEnumerator CameraFade(bool FadeOut = true, float speed = defaultFadeSpeed)//Fade camera to/from black, lower speed = faster fade
+    {
+        while(GameController.GetGameState() == GameController.GameState.Paused)
+        {
+            yield return null;
+        }
         GameObject box = controller.fadeBox;
         box.SetActive(true);
         Color fadeColor = box.GetComponent<Image>().color;
@@ -115,10 +126,14 @@ public class CameraController : MonoBehaviour
 
     private IEnumerator PanTo(Vector3 location, float zoomDistance, float panSpeed)
     {
+        while (GameController.GetGameState() == GameController.GameState.Paused)
+        {
+            yield return null;
+        }
         bool finishedPanning = false;
         while (!finishedPanning)
         {
-            Vector3 distance = location - gameObject.transform.position;  //(new Vector2(gameObject.transform.position.x, gameObject.transform.position.y));
+            Vector3 distance = location - gameObject.transform.position;
             //Check if close enough to finish
             if (distance.magnitude < snapDistance)
             {

@@ -23,7 +23,7 @@ public class Level03 : Level
     private void StartEndSequence()
     {
         RemoveListener(EventController.EventType.SwitchFlipped, "StartEndSequence");
-        StartCoroutine(CameraController.CameraFade());
+        CameraController.SetCameraFade();
         AddListener(EventController.EventType.CameraFadeComplete, "EndDialogue");
     }
 

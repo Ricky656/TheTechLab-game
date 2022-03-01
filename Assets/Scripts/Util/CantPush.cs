@@ -9,7 +9,7 @@ public class CantPush : MonoBehaviour //Stops the player from being able to push
     private Collider2D col;
     private GameObject blocker; 
 
-    private void Awake()
+    private void Awake()//Creates a 'blocker' that surrounds the gameObject and prevents it from being pushed by anything else
     {
         blocker = Instantiate(Resources.Load("Markers/collisionBlocker")) as GameObject;
         blocker.transform.localScale = gameObject.transform.localScale * 1.01f; //10% larger

@@ -39,6 +39,7 @@ public class DialogueController : MonoBehaviour
 
     public void Update()
     {
+        if(GameController.GetGameState() == GameController.GameState.Paused) { return; }
         if (busy && currentConversation.gameHalt)
         {
             if (CheckInput())//Lets player skip typing animation, or go to next line 
@@ -97,6 +98,7 @@ public class DialogueController : MonoBehaviour
         if (controller == null) { Debug.Log("No dialogue controller!"); return; }
         if(controller.currentConversation == null) { return; }
         controller.busy = false;
+        controller.StopAllCoroutines();
         if (controller.currentConversation.gameHalt)
         {
             EventController.TriggerEvent(EventController.EventType.PlayerUnlocked);
@@ -104,6 +106,7 @@ public class DialogueController : MonoBehaviour
         //controller.gameObject.SetActive(false);
         controller.gameObject.GetComponent<Animator>().SetBool("show", false);
         EventController.TriggerEvent(EventController.EventType.DialogueEnd);
+        
     }
 
     private IEnumerator TypeLine()//Displays current dialogue line using a typing effect, speed is set and can be customized per line in dialogueline objects
@@ -111,6 +114,10 @@ public class DialogueController : MonoBehaviour
         bool usingMarkup = false;
         foreach(char letter in currentConversation.dialogueLines[currentLineIndex].text.ToCharArray())
         {
+            while(GameController.GetGameState() == GameController.GameState.Paused) 
+            { 
+                yield return null;
+            }
             textBox.text += letter;
             //These checks allow for markup to be used in strings displayed, skipping the wait time so that E.G.'<color=yellow>' isn't written out 1 characters at a time like the rest of the text
             if (letter == '<' || usingMarkup)

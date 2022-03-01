@@ -117,12 +117,14 @@ public class EntanglementGun : MonoBehaviour
     public void Enable()
     {
         this.enabled = true;
+        aimLine.positionCount = 2; 
         EventController.StartListening(EventController.EventType.BulletHit, BulletHit);
     }
 
     public void Disable()
     {
         EventController.StopListening(EventController.EventType.BulletHit, BulletHit);
+        aimLine.positionCount = 0;
         this.enabled = false;
     }
 
