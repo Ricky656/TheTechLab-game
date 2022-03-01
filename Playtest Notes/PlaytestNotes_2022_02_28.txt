@@ -1,0 +1,30 @@
+Playtest Notes 2022/02/28 
+4 separate people tested this version of the game. 
+
+-Camera pan is oddly slow on standalone builds, but not in editor.
+-Multiple players managed to glitch themselves through the door in level 2 by walking against it, and then
+pushing an entangled object into themselves until they popped through. 
+-One player managed to push themselves out of the map entirely with a similar approach, not a massive issue
+as the out of bounds box already causes the game to respawn them when this happens. 
+-One player discovered they could fly a great distance by standing ontop of an NPC's head, entangling them
+and then moving to the left/right. It only works if the NPC is already elevated and unmoving. 
+-Minor confusion about non game-halting messages, players would spam the interact button and the message would
+keep repeating from the start. This isn't unintended behaviour but may still be best to change it. 
+-One player discovered if they glitch themselves out of the first area and respawn, picking up the 
+entanglement gun would not properly activate it, the issue doesn't persist if checkpoint is reloaded from the 
+main menu. 
+-One player discovered if they line up objects just perfectly, they could entangle more than one object at a time
+not a major bug, but should be fixed. 
+
+
+Thoughts: 
+
+The instances where players manage to glitch themselves through things are a result of the interaction between
+the entanglement system and Unity's in-built physics system. It may be beyond current scope to fix it, but
+the door glitch should at least be mitigated. Need to investigate Unity's physics to see if there's a reasonably 
+simple solution. 
+The infinite-flying glitch is a result of the way the cantPush and entanglement systems interact, the cantPush
+class zeroes its gameObjcects x +y velocity when the player touches them, disabling the y velocity was to 
+fix an earlier glitch but reverting this change may be the best solution. 
+Non-game halting messages should possibly be reserved for alerts and notifications, possibly best to switch all
+'done' dialogues to also be game halting. 
