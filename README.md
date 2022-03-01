@@ -2,7 +2,7 @@
 
 # Introduction #
 
-Welcome to The Tech Lab. This is a small game built using Unity ver.2020.3.29f1, and written in C#. 
+Welcome to The Tech Lab! This is a small game built using Unity ver.2020.3.29f1, and written in C#. 
 
 ## Playing the game ## 
 
@@ -21,6 +21,8 @@ If you would like to simply play the game, download the Builds folder to a direc
 - *Release Entanglement*: Right Mouse Click
 
 - *Pause Menu*: Escape
+
+The game has an autosave feature which will save progress between sessions. This save data path is set according to [Application.persistentDataPath](https://docs.unity3d.com/ScriptReference/Application-persistentDataPath.html), in case you want to delete it afterwards. 
 
 ## Opening the Unity Project ## 
 
