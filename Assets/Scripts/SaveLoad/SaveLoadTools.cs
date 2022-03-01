@@ -22,6 +22,7 @@ public static class SaveLoadTools
             BinaryFormatter formatter = new BinaryFormatter();
             FileStream stream = new FileStream(path, FileMode.Open);
             GameSaveData data = formatter.Deserialize(stream) as GameSaveData;
+            stream.Close();
             return data;
         }
         else { return null; }
