@@ -6,7 +6,7 @@ Welcome to The Tech Lab! This is a small, 2D Puzzle-Platformer built using Unity
 
 ## Playing the game ## 
 
-If you would like to simply play the game, download the Builds folder to a directory of your choice and simply run 'TheTechLab.exe'. This build is targeted at Windowsx86_64, so please ensure you're using an approriate OS or emulated environment. 
+If you would like to simply play the game, download the Builds folder to a directory of your choice and run 'TheTechLab.exe'. This build is targeted at Windowsx86_64, so please ensure you're using an appropriate OS or emulated environment. 
 
 **Controls:** (also shown in-game)
 
