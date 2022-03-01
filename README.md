@@ -2,7 +2,7 @@
 
 # Introduction #
 
-Welcome to The Tech Lab! This is a small game built using Unity ver.2020.3.29f1, and written in C#. 
+Welcome to The Tech Lab! This is a small, 2D Puzzle-Platformer built using Unity ver.2020.3.29f1, and written in C#. 
 
 ## Playing the game ## 
 
